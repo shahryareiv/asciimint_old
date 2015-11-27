@@ -1,0 +1,78 @@
+= Sample Book of AsciiMint ToolChain
+:author: Shahryar 
+// :email: 
+:encoding: utf8
+:docinfo2:
+:sectnums:
+:stem: latexmath
+:doctype: book
+:toc: macro
+:toc-title: Table of Contents
+:toclevels: 4 
+:stem: latexmath
+:fig: Figure
+
+include::_glossary.adoc.txt[]
+
+:chap-n: {counter:chap-n-c:0}
+
+:numbered!:
+
+[colophon]
+== colophon
+[.copyrightline]#ccbync# 
+[.isbn]#000-00-0000-000-0#
+
+[dedication]
+== .{zwsp}
+For X and Y
+
+[.bookepigraph]
+== .{zwsp}
+
+[quote.bookepigraph, Rumi (1207–1273), Masnavi]
+____
+There was an elephant in a dark room ... [.endnote]#The opening of _The Elephant in the Dark Room_ story in _Masnavi_ by Rumi (1207–1273).#
+____
+
+
+[.tableofcontents]
+== Table of Contents
+toc::[] 
+
+
+[.acknowledgments]
+== Acknowledgements
+[.lettrine]
+This work
+
+
+[.abstract]
+== Abstract
+
+Background::
+Information systems 
+
+
+[.bookkeywords]
+== Keywords
+Health Information Systems, 
+
+
+[preface]
+== Preface
+[.lettrine]
+Some preface
+
+
+= How it Works
+[partintro.backpage]
+.Part Intro
+--
+Here comes an introduction to the part
+--
+
+
+== Introduction
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
