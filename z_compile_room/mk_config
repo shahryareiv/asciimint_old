@@ -1,0 +1,14 @@
+base= /Users/sei/Dropbox/Academics/_my_writings/phd
+target=licentiate
+#adoc_pdf adoc_tex_pdf adoc_docbook_tex_pdf adoc_docbooktex adoc_docbook4tex_tex adoc_docbook4tex_tex_pdf
+#adoc_tex_pdf adoc_docbook4tex_tex adoc_docbook4tex_tex_pdf adoc_docbook4docx_docx
+format=adoc_docbook4tex_tex_pdf adoc_docbook4docx_docx adoc_html
+bib= library.bib
+glossary= _glossary.adoc.txt
+tex_glossary=tex_glossary.tex
+#licentiate.docbooktemplate_tuft1.tex licentiate.docbooktemplate_mem1.tex
+tex_template=licentiate.docbooktemplate_tuft1.tex
+#xelatex pdflatex
+tex_compiler=pdflatex
+csl_style=apa
+

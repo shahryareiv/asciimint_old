@@ -1,0 +1,23 @@
+
+
+asciidoc_processed:$(buildsrc).adoc_processed.txt
+	@$(warning  asciidoc_processed)
+
+
+$(buildsrc).adoc_processed.txt:$(buildsrc).adoc-ref.txt
+	@$(cmd_sync) $< $@ 	
+
+# asciidoc_bib_done:	$(buildsrc).adoc-ref.txt
+# ->(#asciidoc_in_build_dir asciidoc_glossary_in_build_dir asciidoc_bib_in_build_dir)
+$(builddir)/$(glossary):$(glossary_file)
+		@$(cmd_sync) $< $@ 	
+
+$(buildsrc).adoc-ref.txt:$(buildsrc).adoc.txt $(builddir)/$(glossary) $(builddir)/$(bib)
+	@# (warning ----- >> create $(notdir $@) in build folder)
+	@# strangely it does not like directories
+	@# export LANG=en_US.UTF-8
+	@# export LANGUAGE=en_US.UTF-8
+	@# export LC_ALL=en_US.UTF-8
+	@# bundle	
+	@cd $(builddir) && export LANG=en_US.UTF-8 && asciidoc-bib $(buildsrc).adoc.txt --bibfile $(builddir)/$(bib) --style $(csl_style)
+	@#cd $(BUILD_DIR) &&  

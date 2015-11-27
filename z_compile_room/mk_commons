@@ -1,0 +1,15 @@
+all_commons:$(builddir)/$(bib) $(buildsrc).adoc.txt
+
+#bib file to be in build dir	
+$(builddir)/$(bib):$(bib_file)
+		@$(cmd_sync) $< $@ 	
+
+#every thing is made in builddir then copied to outdir	
+$(outdir)/$(target)/%: $(builddir)/%
+	@$(cmd_sync) $< $@
+
+#the first thing to copy text to builddir	
+$(buildsrc).adoc.txt:$(textsrc).adoc.txt
+	@$(cmd_sync) $< $@
+
+mystep=@#(warning HEY!----- >> $(notdir $@))		

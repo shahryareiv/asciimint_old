@@ -1,0 +1,23 @@
+tex_libs= $(notdir $(wildcard $(tex_libdir)/*))
+tex_libs_in_build=$(addprefix $(builddir)/,$(tex_libs))
+
+REGEX_TEX_CITE_REPLACE= -pe 's/(?m);(?=[^\r\n\[]+?\])/,/gm;' -pe 's/\[cite:((\w|-|,|;)+)]/+++\\citep{\1}+++/g;' -pe 's/\[citenp:((\w|-|,|;)+)]/+++\\citet{\1}+++/g;'  
+REGEX_TEX_STEM_REPLACE= -pe 's/stem:\[([^\]]+)\]/+++\\(\1\\)+++/g;' 
+REGEX_TEX_GREEK= -pe 's/α/\\textalpha/g;'  -pe 's/β/\\textbeta/g;'  -pe 's/γ/\\textgamma/g;' -pe 's/&#945;/\\textalpha/g;'  -pe 's/&#946;/\\textbeta/g;'  -pe 's/&#947;/\\textgamma/g;' 
+REGEX_TEX_REMOVE_PNG= -pe 's/(?<=image::)([\w\b-]+).png/\1/g;' 
+REGEX_TEX_FIX_COMMENT= -pe 's/\\\%/\%/g;'
+#$(REGEX_TEX_GREEK)
+REGEX_TEX_ALL= $(REGEX_TEX_CITE_REPLACE)  $(REGEX_TEX_FIX_COMMENT)  $(REGEX_TEX_STEM_REPLACE) $(REGEX_TEX_REMOVE_PNG)
+
+
+cmd_latexmk= latexmk -cd -f -pdf -quiet -silent -pdflatex="$(tex_compiler) --shell-escape  --enable-write18 -interaction=nonstopmode -synctex=1 -file-line-error %S %O " > ${builddir}/latexmd.log
+
+#tex template to be in build dir first
+$(buildsrc).template.tex:$(tex_template_file)
+	@$(cmd_sync) $< $@ 	#tex template to be in build dir first
+#tex glossary to be in build dir first
+$(builddir)/$(tex_glossary):$(tex_glossary_file)
+	@$(cmd_sync) $< $@ 	
+#all tex packages to be in build: deps on all tex packages to be in lib
+$(tex_libs_in_build):$(addprefix $(tex_libdir)/,$(tex_libs))
+	@$(cmd_sync) $(tex_libdir)/$(notdir $@) $@

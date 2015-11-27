@@ -1,0 +1,108 @@
+#--------- F I G U R E S   
+# Depends on mk_tex_initials
+#--------------------------
+
+# FIGURES= $(patsubst figures/%.tex,%.tex,$(wildcard figures/*.tex))
+FIGURE_SRCS_TIKZ=$(wildcard $(figuredir)/fig_*.tikz.tex)
+FIGURE_SRCS_PNG=$(wildcard $(figuredir)/fig_*.png)
+FIGURE_SRCS_JPG=$(wildcard $(figuredir)/fig_*.jpg)
+FIGURE_SRCS_SVG=$(wildcard $(figuredir)/fig_*.svg)
+FIGURE_SRCS_PDF=$(wildcard $(figuredir)/fig_*.pdf)
+figures_all_in_figdir=$(FIGURE_SRCS_TIKZ) $(FIGURE_SRCS_PNG) $(FIGURE_SRCS_JPG) $(FIGURE_SRCS_SVG) $(FIGURE_SRCS_PDF)
+FIGURE_SRCS=$(notdir $(figures_all_in_figdir))
+FIGURE_ALL_NAMES=$(basename $(FIGURE_SRCS:tikz.tex=tex))
+FIGURE_ALL2PNGS=$(addsuffix .png, $(FIGURE_ALL_NAMES))
+FIGURE_ALL2PDFS=$(addsuffix .pdf, $(FIGURE_ALL_NAMES))
+FIGURE_ALL2SVGS=$(addsuffix .svg, $(FIGURE_ALL_NAMES))
+FIGURE_ALL2JPGS=$(addsuffix .jpg, $(FIGURE_ALL_NAMES))
+FIGURE_ALL2TIFFS=$(addsuffix .tiff, $(FIGURE_ALL_NAMES))
+# FIGURE_INS=$(addprefix $(figuredir)/,$(FIGURE_SRCS))
+FIGURE_ALL2PNGS_IN_BUILD_DIR=$(addprefix $(builddir)/,$(FIGURE_ALL2PNGS)) 
+FIGURE_ALL2PDFS_IN_BUILD_DIR=$(addprefix $(builddir)/,$(FIGURE_ALL2PDFS))
+FIGURE_ALL2SVGS_IN_BUILD_DIR=$(addprefix $(builddir)/,$(FIGURE_ALL2SVGS))
+figures_all_in_builddir=$(FIGURE_ALL2PNGS_IN_BUILD_DIR) $(FIGURE_ALL2PDFS_IN_BUILD_DIR) $(FIGURE_ALL2SVGS_IN_BUILD_DIR)
+#$(wildcard figures/*.tex)
+# TEX_TIKZ_FIGURE_SRCS=$(wildcard *.tikz.tex)
+# TEX_TIKZ_FIGURE_INS=$(figuredir)/$(TEX_TIKZ_FIGURE_SRCS)
+# TEX_TIKZ_FIGURE_ALL2PNGS=$(addprefix $(builddir)/,$(TEX_TIKZ_FIGURE_SRCS))
+
+all_figures: all_2png_figures all_2pdf_figures  all_2svg_figures
+	@$(warning made all figures: $(words $(FIGURE_ALL2PNGS_IN_OUTPUT_DIR))\n)
+
+
+all_2png_figures:$(addprefix $(images_4html_outdir)/,$(FIGURE_ALL2PNGS))
+	@$(warning all PNG figures in place: $(words $(FIGURE_ALL2PNGS_IN_OUTPUT_DIR))\n)
+
+all_2pdf_figures:$(addprefix $(images_all_outdir)/,$(FIGURE_ALL2PDFS))
+	@$(warning all PDFs figures in place: $(words $(FIGURE_ALL2PNGS_IN_OUTPUT_DIR))\n)
+
+all_2svg_figures:$(addprefix $(images_all_outdir)/,$(FIGURE_ALL2SVGS))
+	@$(warning all SVG figures in place: $(words $(FIGURE_ALL2PNGS_IN_OUTPUT_DIR))\n)
+
+
+all_2png_figures_in_build_dir:$(FIGURE_ALL2PNGS_IN_BUILD_DIR) 
+all_2pdf_figures_in_build_dir:$(FIGURE_ALL2PDFS_IN_BUILD_DIR) 
+all_2svg_figures_in_build_dir:$(FIGURE_ALL2SVGS_IN_BUILD_DIR)
+
+#Copy images to destination (output or output/extra)
+$(images_4html_outdir)/fig_%.png: $(builddir)/fig_%.png
+	@$(warning ----- >> Done! $(notdir $@))	
+	@$(cmd_sync)  $< $@
+$(images_all_outdir)/fig_%.pdf: $(builddir)/fig_%.pdf
+	@# (warning ----- >> sync $(notdir $<) to output folder ($(notdir $@)))
+	@$(warning ----- >> Done! $(notdir $@))	
+	@$(cmd_sync)  $< $@
+$(images_all_outdir)/fig_%.jpg: $(builddir)/fig_%.jpg
+	@# (warning ----- >> sync $(notdir $<) to output folder ($(notdir $@)))
+	@$(warning ----- >> Done! $(notdir $@))	
+	@$(cmd_sync)  $< $@
+$(images_all_outdir)/fig_%.svg: $(builddir)/fig_%.svg
+	@# (warning ----- >> sync $(notdir $<) to output folder ($(notdir $@)))
+	@$(warning ----- >> Done! $(notdir $@))	
+	@$(cmd_sync)  $< $@
+
+#Bring all!
+# $(figures_all_in_builddir):$(figures_all_in_figdir)
+# 	@$(cmd_sync)  $(figuredir)/$(notdir $@) $@	
+
+#Bring images from their source
+$(builddir)/fig_%.png: $(figuredir)/fig_%.png
+	@# (warning -------- >> find and sync ANY png figures from root-----------)	
+	@$(cmd_sync)  $< $@	
+
+$(builddir)/fig_%.png: $(builddir)/fig_%.pdf
+	@convert  -density 300 -quality 90 $<  $@ 
+
+#1st: If original pdf exists just copy, 2nd:If original png exists copy and convert, 3rd if tikz exists compile else 4rd copy tikz
+$(builddir)/fig_%.pdf: $(figuredir)/fig_%.pdf
+	@#(warning ------- for any PDF fig (dep on pdf in root))
+	@$(cmd_sync)  $< $@
+$(builddir)/fig_%.pdf: $(figuredir)/fig_%.png
+	@# (warning ------- for any PDF fig (dep on pdf in root))
+	@$(cmd_sync)  $< $@
+	@convert  -density 150 -quality 90 $< $@ 
+$(builddir)/fig_%.pdf: $(builddir)/fig_%.tikz.tex $(tex_libs_in_build)
+	@$(warning ------- compiling: $<)
+	@#-jobname=$(basename $@)
+	@$(cmd_latexmk)  $<
+	@$(warning ------- compiling done! : $<)
+	@# rename X.tikz.pdf to X.pdf
+	@mv $(basename $@).tikz.pdf $(basename $@).pdf
+	@$(warning ------- moving done! : $<)
+$(builddir)/fig_%.tikz.tex: $(figuredir)/fig_%.tikz.tex
+	@#(warning -- >> sync ANY tikz figures (tikz.tex) from $< to $@)	
+	@$(cmd_sync)  $< $@
+
+$(builddir)/fig_%.svg: $(figuredir)/fig_%.svg
+	@# (warning -------- >> find and sync ANY svg figures from root-----------)	
+	@$(cmd_sync)  $< $@	
+$(builddir)/fig_%.svg: $(builddir)/fig_%.tikz.svg
+	@# (warning -------- >> find and sync ANY svg figures from root-----------)	
+	@$(cmd_sync)  $< $@		
+	@# rename X.tikz.svg to X.svg
+	# mv $(basename $@).tikz.svg $(basename $@).svg
+$(builddir)/fig_%.svg: $(builddir)/fig_%.pdf
+	@# (warning ------- for any svg fig (dep on pdf))
+	# @#convert -density 300 -quality 90 $(basename $@).pdf  $@
+	#it shows that svg was not created already from tikz.tex
+	@convert  -density 300 -quality 90 $(basename $@).pdf  $@

@@ -1,0 +1,28 @@
+textdir=$(base)/src_text/$(target)
+textsrc=$(textdir)/$(target)
+text_file=$(textsrc).asciidoc.txt
+template_dir=$(base)/src_covers_templates/$(target)
+builddir=$(base)/z_build
+buildsrc=$(builddir)/$(target)
+figuredir=$(base)/src_figures
+outdir=$(base)/out_final
+outsrc=$(outdir)/$(target)/$(target)
+images_4html_outdir=$(outdir)/$(target)/images
+images_all_outdir=$(outdir)/_all_images
+#rsync -l --update  
+cmd_sync= rsync --copy-links --update
+cmd_replace=perl -0777   -i.bak  -C
+bib_file=$(base)/src_biblio_glossary/$(bib)
+glossary_file=$(base)/src_biblio_glossary/$(glossary)
+
+html_libdir=$(base)/z_libs/html_libs
+
+tex_glossary_file=$(base)/src_biblio_glossary/$(tex_glossary)
+tex_libdir=$(base)/z_libs/tex_libs
+#tex_template_file=$(template_dir)/$(target).template.tex
+tex_template_file=$(template_dir)/$(tex_template)
+
+#docx_template_file=$(template_dir)/$(target).template.xml
+docx_template_file=$(template_dir)/template.xml
+
+docbook2docx_tooldir=$(base)/z_tools/docbook-xsl-1.78.1/roundtrip
