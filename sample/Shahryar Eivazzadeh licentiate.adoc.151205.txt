@@ -1,0 +1,1981 @@
+= Evaluating Health Information Systems
+:author: Shahryar Eivazzadeh
+:email: shahryar.eivazzadeh@bth.se
+:encoding: utf8
+:sectnums:
+:stem: latexmath
+:doctype: book
+:toc: macro
+:toc-title: Table of Contents
+:toclevels: 4 
+:stem: latexmath
+:fig: Figure
+
+
+
+
+
+
+
+
+include::_glossary.adoc.txt[]
+
+:chap-n: {counter:chap-n-c:0}
+////
+:chap-a: 4
+:chap-d: pass:a[{chap-b}]
+:chap-f: 4
+:chap-f: {chap-f}+1
+:chap-g: {counter:g:4}
+:chap-g: {counter:g}
+
+{counter2:chap-a} a{chap-a}
+{counter2:chap-b:5} b{chap-b}
+{counter:chap-c:4} c{counter:chap-c}
+d{chap-d}
+{set:chap-e:pass:a[{counter:chap-b}]} e{chap-e}
+f{chap-f}
+g{chap-g}
+
+
+<<fig-sample>>
+[#fig-sample,reftext='{fig} a{chap-a} b{chap-b} c{chap-c} c{counter:chap-c} d{chap-d} e{chap-e}  e-pass pass:a[{chap-e}] f{chap-f} g{chap-g}']
+image::fig_suid_generic_model.png[]
+////
+
+:numbered!:
+
+
+////
+[colophon]
+== colophon
+[.copyrightline]#ccbync# +
+2015 Shahryar Eivazzadeh +
+Department of Health +
+Publisher: Blekinge Institute of Technology, +
+SE-371 79 Karlskrona, Sweden +
+Printed by Lenanders Grafiska, Kalmar, 2015
+ +
+[.isbn]#978-91-7295-315-4# +
+ISSN 1650-2140 +
+urn:nbn:se:bth-XXXXX
+ +
+The text of this book is authored in AsciiDoc, a human-readable document format, and is formatted from AsciiDoc, through a tool-chain, into typesetting and presentation formats in Latex, HTML and DocBook. Shahryar Eivazzadeh developed the tool-chain by using several open-source software applications, including but not limited to AsciiDoctor, DBLatex, and several Latex packages. The illustrations have been made using Tikz, Inkscape, or Gimp. The typographic style is inspired by E.R. Tufte's works.
+////
+
+////
+Photo credits: All photos and illustrations in this book are either credited to their original creator, are public domain but the source is mentioned, or are the created by Shahryar Eivazzadeh +
+////
+
+
+[dedication]
+== .{zwsp}
+For Parvin and Asghar, +
+thanks for everything.
+
+
+
+[.bookepigraph]
+== .{zwsp}
+
+[quote, Rumi (1207–1273), Masnavi]
+____
+There was an elephant in a dark room ... [.endnote]#The opening of _The Elephant in the Dark Room_ story in _Masnavi_ by Rumi (1207–1273).#
+____
+
+
+
+
+[.tableofcontents]
+== Table of Contents
+toc::[] 
+
+
+
+
+[.acknowledgments]
+== Acknowledgements
+[.lettrine]
+This work is a side-effect of the collective efforts of a group of people, mainly in the department of health at Blekinge Institute of Technology (BTH), who try to extend our knowledge on how to recruit technology in the sake of a better health condition for people.
+Apparently, my supervisors provided the main support for writing this work, so here my acknowledgment goes to them.
+Dr. Peter Anderberg, whose character of close support rhymed well with some of the quality attributes that we tried to measure in health information systems, i.e. availability, effectiveness, efficiency, and trustworthiness. And these are beyond the insights he shared with me during our discussions or review of my writings.
+Prof. Johan Berglund, who has been a solid reference of knowledge and vision in the health and health technology area. 
+With his supervision and lead, my experience of study in applied health technology was smooth and engaging.
+Prof. Tobias Larsson, who has been my supervisor since my Masters studies, led me to health technology studies, and supported me with his trust and extra dimensions of thought.
+The studies in this thesis were mainly funded by the FI-STAR project, an EU project in e-health. 
+I appreciate the collaboration of the many participants of this project around Europe, especially the colleagues from other departments at BTH.
+
+The study in the health department at BTH has been a delightful experience due to the people who work there.
+My acknowledgment to Ingela Silverflod, the coordinator of the department, from whom I received the best support and knowledge in any job at the department, since my first day there.
+Thanks to the current and previous heads of the department, Dr. Doris Bohman and Dr. Louise Stjernberg, who made all the managerial things very smooth and with consideration.
+The colleagues at the department, especially the past and present Ph.D. students, made the many hours I spent there enjoyable.
+So here my thanks goes to Ulrika Isaksson, Tobias Ericson, Carmen Sanmartin, Lina Nilsson, Stina Lilje, Magnus Stentagg, Ingrid Weiber, Markus Hjelm, Ewa Andersson, Johanna Tell, Hanna Tuvesson, Catharina Lindberg, and Terese Ericsson.
+
+My family should be credit for any value I create in my life —hopefully, including this work. Thanks to my parents for their superb and constant devotion, love, and support. And thanks to my spouse for being a companion in my journey.
+
+
+
+
+
+[.abstract]
+== Abstract
+
+
+Background::
+Health information systems have emerged as a major component in our response to the trends of rising demands in health care. 
+The insight being gained from the evaluation of those systems can critically influence the shaping of the response.
+Summative or formative evaluation of health information systems assesses their quality, acceptance, and usefulness, creates insight for improvement, discriminates between options, and refines future development strategies.
+But the evaluation of health information systems can be challenging due to the propagation of their impacts through multiple socio-technological layers till the ultimate recipients, their heterogeneity and fast evolvement, and the complexity of health care settings and systems.
+
+Aim::
+This thesis tries to explain the challenges of evaluation of health information systems with a narrow down on determining evaluation aspects and to propose relevant solutions.
+The thesis goes for solutions that mitigate heterogeneity and incomparability, recruit or extend available evaluation models, embrace a wide context of application, and promote automation.
+
+Method::
+The literature on health information systems evaluation, methods of dealing with heterogeneity in other disciplines of information systems, and ((ontology engineering)) were surveyed.
+Based on the literature survey, the UVON method, based on ((ontology engineering)), was first developed in study [.romannumup]#1#.
+The method was applied in FI-STAR, a European Union project in e-Health with 7 use-cases, for summative evaluation of the individual and whole e-health applications.
+Study [.romannumup]#2#, extended the UVON method for a formative evaluation during the design phase.
+
+Results::
+Application of the UVON method in the FI-STAR project resulted in a set of evaluation aspects that were delivered to the use-cases in the form of questionnaires.
+The resulted evaluation aspects were considered sensible and with a confirming overlap with another highly used method in this field (MAST).
+No significant negative feedback from the FI-STAR use-case owners (stem:[n=7]) or the respondents (stem:[n=87] patients and stem:[n=30] health professionals) was received or observed.
+
+Conclusion::
+In the evaluation of health information systems —possibly also in other similarly characterized systems— ((ontology engineering)) methods, such as the proposed UVON method, can be applied to create a flexible degree of unification across a heterogeneous set of evaluation aspects, import evaluation aspects from other evaluation methods, and prioritize between quality aspects in design phase.
+Ontologies, through their semantic network structures, can capture the extracted knowledge required for evaluation, facilitate computation of that knowledge, promote automation of evaluation, and accommodate further extensions of the related evaluation methods by adding new features to their network structure.
+
+[.bookkeywords]
+== Keywords
+Health Information Systems, 
+// Health Care Information Systems, 
+Health Information Technology, 
+Health Informatics,
+// Medical Informatics,
+eHealth,
+Information Systems Evaluation, 
+Health Technology Assessment, 
+// Evaluation Studies,
+Ontology Engineering
+// Semantic Networks, 
+// Health Information Ecosystem, 
+// Health Care Information Ecosystem
+
+
+
+////
+[preface]
+== Preface
+[.newthought]
+Some preface
+////
+
+////
+ifdef::basebackend-docbook[]
+endif::basebackend-docbook[]
+////
+
+
+:numbered:
+
+
+= KAPPA
+[partintro.backpage]
+.Part Intro
+--
+[quote,Rumi (1207–1273),Divan e Shams]
+I yearn to be the "kappa" … [.endnote]#In Swedish, _kappa_ means the garment that covers head [cite:svenska_akademien_kappa_2015], where in the academic environments of some Nordic countries, it means the introductory part to a dissertation, wrapping the papers in next parts. It is originally from late Latin _cappa_ "a cape, hooded cloak" [cite:douglas_harper_cape_2015]. It is a cognate with Middle Persian _kabāh_ "garment, cloak" [cite:mackenzie_kabah_2014] (as in the cited poem from Rumi), ultimately from Proto-Indo-European _(s)kep-_ "to split, cut" [cite:douglas_harper_cape_2015].#
+--
+
+////
+The bright Sun will shatter clouds one day, +
+how one can hide mania in kappa? +
+—Saeb Tabrizi
+
+
+The one who could not enclosed in the six directions of the universed, is now embraced in a kapp, how does it feel?
+—Rumi
+
+
+SAOB:om plagg som betäcker huvudet: huva, hätta; särsk (garments that covers the head: the hood, bonnet)
+garment, late Old English capa, cæppe, from Late Latin cappa "hooded cloak"
+ethymology dictionary: cap: late Old English cæppe "hood, head-covering, cape," from Late Latin cappa "a cape, hooded cloak"
+Middle Persian kpʾh ‎(kabāh, “garment, cloak”). Ultimately from Proto-Indo-European *(s)kep- ‎(“to split, cut”). 
+
+////
+
+
+
+== Introduction
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
+
+****
+changes in health care in the age of information
+****
+[.lettrine]
+Health care, like many other aspects of our individual and social activities, experiences drastic changes in the unfolding of the ((information age)).
+While we still continue to have almost the same biological features as used to have during the last few tens of thousands of years, but our approaches and capacities to promote and restore our health condition, at individual or population levels, have changed dramatically.
+This change cannot be attributed exclusively to the information age, since, we are still experiencing the waves of change that have risen long before the dawn of the information age, maybe since the emerging of the industrial age.
+However, for the information-intensive industry of health care, the continuum of changes since the industrial age can be imagined to experience profound leaps due to disruptive information technologies, information technology penetration rates that bypass their critical mass thresholds, and the evolvement of the societies toward the state of the information society [cite:dutta_global_2015].
+
+****
+complex case of understanding the impact of information technologies on health care
+****
+
+But, evaluating how these _information technologies_, their ever expanding penetration rate, and the new social paradigm associated with them are changing our health condition is a very complex —if not an impossible— investigation.
+Health care is not the only determinant of the health condition; {WHO} lists _health services_ amongst six other ((determinants of the health)) for individuals or communities [cite:who_determinants_2015].
+Skipping the almost-fixed determinants, such as _genetics_ and _gender_, still other indicators, such as _education_, can be heavily influenced by information technology related trends.
+Even the nature of this influence, for example on the _social status_ or _physical environment_ determinants, can be very complex and indeterministic.
+In between the improving world health indicators [cite:world_health_organization_world_2015] and the exponential unfolding of information age features, there is a large and complex network of causalities, known or unknown impacting factors, and uncertainties. 
+
+But descending from the above macro level can make relations clearer.
+In a bounded scope of view, health care, as a service, benefits from our advancement in the information technology [cite:chaudhry_systematic_2006].
+Still it can be difficult to translate this advantageous relation into some final health outcome indicators. 
+Therefore we may want to retreat from the health outcome indicators to some proxy indicators in health care and find a stronghold for more solid investigations there.
+
+****
+the impact of information technology vs. the impact of health information technology
+****
+
+Even in this new formulation, i.e. to investigate the impact of health technology and systems in health care, we have one more possible step to narrow down. 
+The wider perspective is to evaluate how the information technology and systems impact the health care and its systems; the more narrowed down version is to focus on those parts of the information technology and systems landscape that overlap with the health care, i.e. health information technology or health information systems.
+As an example, in the first perspective we can ask how using mobile phones is reshaping health care delivery while in the second perspective we can ask how m-health applications, i.e. restricted to mobile health, are changing the health care delivery.
+
+****
+health information technology vs. health information systems
+****
+
+This overlapped zone can be evaluated vertically, like how the health information technologies perform, or horizontally like how the health information systems carry out their missions.
+Speaking about technologies is usually more focused on a specific technology, regarding its all implementations.
+Speaking about systems usually considers a set of technologies and human agents that interact together to reach an intended goal; at the same time it is usually about some certain implementations.
+
+[.newthought]
+We envision, invest in, innovate, design, implement, deploy, and finally evaluate health information systems in order to reach more available, more effective, more efficient, more reliable, more personalized, and less expensive health care in all modes of promotion, prevention, diagnosis, treatment, rehabilitation, palliative care, and management [cite:haux_health_1998;haux_health_2006;uckert_past_2014].
+By evaluating health information systems, we assess their quality, acceptance, and usefulness, create insight for improvement, discriminate between different options, and refine our future development strategies.
+Evaluation differentiates our attempts from random movements by fostering learning.
+Evaluation accompanies all other activities of envisioning, investing, innovating, designing, implementing, or deployment and also comes as a standalone activity to assess the final results.
+
+****
+the challenging situation of evaluating health information systems
+****
+
+Evaluation of health information systems can be challenging [cite:littlejohns_evaluating_2003;kreps_is_2007;greenhalgh_why_2010].
+The spatiotemporal distance between the point of health information system intervention and the ultimate receiver of the added value can be very long, passing through layers of socio-technical systems, mixing with many other signals, and accepting different embodiments.
+Heterogeneity and fast evolvement of health information systems or their parts blur baselines or benchmarks, repel comparability and aggregation, and give rise to controversy over a common set of evaluation aspects. 
+The complexity of health care systems can intensify the above challenges and raise unforeseen issues that missing them can invalidate the evaluation results.
+
+
+Above challenges are implied by the number and content of new studies that suggest new methods of evaluation, improve the older ones, or provide supporting pieces of evidence for some others.
+A systematic review in 2006 [cite:chaudhry_systematic_2006], confirms the positive impact of health information technology on adherence to guidelines, disease surveillance, and medication error control, but warns about mixing result in time utilization, considers the data on cost insufficient, reports on the low availability of evidence on specific aspects, and states that many of the results in the studies cannot be generalized.
+Results of this review denote the many wide gaps that evaluation studies should fill in to sharpen our strategies in developing, implementation, and application of health information systems.
+
+****
+the challenge of heterogeneity
+****
+
+[.newthought]
+Amongst the challenges, which will be discussed in more details in <<chp_on_evaluation_of_technology>>, heterogeneity hinders both the individual and aggregative evaluations in the health information systems.
+It is discussed in <<chp_from_technology_to_health_information_technology>> that this heterogeneity is intrinsic in the technology, information technology, health information technology, and at last in the health information systems. 
+
+Our success in giving sound results in the evaluation of health information systems is bounded by our ability in unifying the heterogeneous quality aspects that need to be evaluated.
+This limitation can hinder summative evaluations where members of a heterogeneous set of health information systems are required to be evaluated individually —but comparably— or in an aggregative way.
+This limitation can also hinder formative evaluations where a heterogeneous set of quality attributes, whether formed as design options or packaged as design alternatives, compete to be evaluated as the best design specification.
+
+****
+the studies in this dissertation
+****
+
+[.newthought]
+The two studies that come in the second part of this dissertation introduce methods that facilitate evaluation of health information systems, or the similarly characterized systems.
+Both methods rely on creating ontologies as a strategy for capturing and unifying quality aspects. 
+Study [.romannumup]#1# introduces a method to unify quality aspects and import them from other evaluation models, in the case of individual or aggregative evaluation of a heterogeneous set of health information systems.
+Study [.romannumup]#2# represents a method to prioritize quality aspects during the design phase, hence evaluating design options and alternatives.
+Both papers utilize the insights gained from FI-STAR, an EU project in e-health. The result of the study [.romannumup]#1# has been practically used for the evaluation of seven different e-health applications in that project.
+The chapters in the first part of this dissertation provide background to studies [.romannumup]#1# and [.romannumup]#2# by surveying about health information systems, health technology evaluation, in addition to ontologies and semantic networks.
+
+////
+Why it is important.
+****
+Envision, Interven, Evaluate
+****
+////
+
+
+////
+[.newthought]
+Learning differentiates our trials from random movements; and learning relies on the information we receive from evaluation.
+
+The state of the world, in the scope of our concern, changes with many factors, but among these factors, the interventions that we have initiated ourselves in the hope that we can change that state to a more desirable one are important because we have the ability to rectify those intervention in the light of insights we receive through _evaluation_ of previous interventions.
+////
+
+////
+[.newthought]
+What is the problem.
+////
+
+
+
+
+////
+The need for health care services is in steep increase.
+Some fundamental trends, across the world and EU in specific, keep this upright angle sustaining.
+////
+
+
+////
+[.newthought]
+The aging Europe
+////
+
+////
+****
+aging world, aging Europe
+****
+////
+
+
+////
+[.newthought]
+The welfare states of Europe and their role in improving public health
+////
+
+////
+[.newthought]
+More needs for e-health 
+////
+
+
+
+
+////
+[.newthought]
+Cycles of envisioning, designing, implementation, and evaluatation.
+////
+
+== Research Context and Methodology
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
+
+[.lettrine]
+Both studies [.romannumup]#1# and [.romannumup]#2#, presented in this dissertation, were performed in relation with {FI-STAR} project.
+The method proposed by study [.romannumup]#1# was used in {FI-STAR} to create the evaluation questionnaires (refer to <<chap_questionnaires>>).
+At the same time, some of the challenges of the {FI-STAR} project provided insight into the development of the {UVON} method (study [.romannumup]#1#) and its possible applications and extensions (study [.romannumup]#2#).
+These inspiring challenges include but not limited to the heterogeneity of evaluation aspects in different e-health applications and need to aggregate them, vision for an e-health ecosystem being established in the future of the project, need for evaluation of new members being added to this e-health ecosystem, and different options for designs.
+
+
+=== FI-STAR
+
+[.marginfigurenote]
+.FI-STAR project logo.
+image:fig_fistar_logo.png[alt="FI-STAR project logo"]
+
+
+[.marginfigurenote]
+.FI-PPP project logo.
+image:fig_fippp_logo.png[alt="FI-PPP project logo"] +
+
+
+
+[.marginfigurenote]
+.FIWARE platform logo.
+image:fig_fiware_logo.png[FIWARE platform logo]
+
+
+
+[.newthought]
+The {FI-STAR} project was the main testbed for the methods proposed in study [.romannumup]#1# and study [.romannumup]#2#. {FI-STAR} was a project in e-health initiated by {EC}, as a part of {FI-PPP} phase [.romannumup]#2# and in the context of {FP7} program.
+{FI-STAR} consisted of 7 early trials (increased to 8 later) of development and deployment of e-health applications using {FI} technology from the {FI-PPP} project.
+It was envisioned that 4 million people would be served by the fully developed results from the {FI-STAR} project [cite:fistar_consorium_about_2014].
+
+The main idea behind {FI-STAR} was that implementing some of the common requirements of e-health application in the form of {FI-GE} and {FI-SE} in the {FIWARE} platform can foster the development of e-health applications, and the {FI} technology platform can create a sustainable ecosystem from those applications. 
+Also, it was considered that the cloud architecture of {FI} can be designed to accommodate _software to data_ approach, where the applications migrate to data centers, eliminating the need for data to be transferred to other locations.
+This special architecture is supposed to address many of the privacy and regulatory issues in health information systems [cite:fistar_consorium_about_2014] that prevent this sector from enjoying the same cloud-based technological advancement as other sectors.
+
+
+
+[#fig_fistar_sites,reftext='{fig} {chap-n}.{counter:fig-n}']
+.FI-STAR trial sites. [.myredtext]#Tromso# stem:[\rightarrow] ((diabetes)) ((tele-medicine)), [.myredtext]#Leeds# stem:[\rightarrow] back ((tracking pharmaceutical products)), [.myredtext]#Krakow# stem:[\rightarrow] ((cancer patients)) management , [.myredtext]#Munich# [.romannumup]#1# stem:[\rightarrow] ((operation room consumables tracking)), [.myredtext]#Munich# [.romannumup]#2# stem:[\rightarrow] facilitating transportation for ((patients with mobility problem)), [.myredtext]#Bucharest# stem:[\rightarrow] ((rehabilitation monitoring)) for patients with hear failure problem , [.myredtext]#Bologna# stem:[\rightarrow] information sharing for patients with ((COPD)), [.myredtext]#Bilbao# stem:[\rightarrow] interactive system for communication between ((patients with mental health problem)) and health professionals.
+image::fig_fistar_sites.png[alt="FI-STAR trial sites"]
+
+
+
+
+Each of the {FI-STAR} use-case or trial was located in a different site (Munich had two trials) <<fig_fistar_sites>>.
+((Tromso)) case developed a mobile-based health information system for providing tele-health services for diabetes and their physicians, in terms of demand-based sharing and visualization of data.
+((Leeds)) developed a barcode application for reverse tracking pharmaceutical products in the supply chain, making sure about authenticities.
+((Krakow)) developed a ((tele-medicine)) solution both for rehabilitation of cancer patients and preparation for surgery.
+((Bilbao)) in Basque country in ((Spain)) developed an interactive system to support patients with ((bipolar)) and other mental disorder to have access to services by health professionals.
+((Bucharest)) developed a solution for monitoring and delivering health care services to patients with heart failure problem, especially in the rehabilitation phase.
+((Munich)), in the first case, developed a solution to track consumables in the operation room, making sure none has remained in the patients body during surgery.
+((Munich)), in its second case, developed a solution to facilitate the transportation of people with mobility problem to health care centers by advising routes of public transport services.
+This solution was not in the initial set of use-cases to evaluate, but we include this in our final evaluations using the questionnaire developed based on other cases.
+((Bologna)) in Italy developed a solution for sharing information between patients and health professionals, especially in ((COPD)) footnote:[Chronic Obstructive Pulmonary Disease] case.
+
+
+
+=== Methodology
+
+[.newthought]
+Survey on the literature of health technology assessment (HTA), evaluation of health information systems, heterogeneity in information systems, and ((ontology engineering)) was performed.
+Evaluation requirements in the {FI-STAR} project permitted to focus more in the studies, hence the studies in the evaluation were narrowed down to the evaluation of quality aspects; therefore the economic valuations and the clinical impacts were removed from the study agenda.
+Also, the requirements of the evaluation of the {FI-STAR} project canalized the studies in ((ontology engineering)) towards the creation of the {UVON} method.
+
+In {HTA} studies, special attention was paid to the historical rationals and the scope of topic [cite:banta_history_2009] [cite:banta_development_2003] [cite:draborg_international_2005]
+[cite:luce_ebm_2010]
+[cite:nielsen_health_2011]
+[cite:lim_health_2009]; models, methods, aspects being considered, and reporting
+[cite:douma_methodology_2007]
+[cite:goodman_methodological_1999]
+[cite:lampe_hta_2009]
+[cite:kristensen_practical_2009]
+[cite:kristensen_health_2009]
+[cite:pasternack_hta_2014]
+[cite:ramacciati_health_2013]
+[cite:shekelle_costs_2006]
+[cite:turner_adaptation_2009].
+
+****
+the considered studies
+****
+
+In evaluation of health information systems, special attention was paid to 
+prospect 
+[cite:haux_medical_2010]
+[cite:haux_health_2006]
+[cite:uckert_past_2014]
+[cite:talmon_medical_2002]; challenges [cite:ammenwerth_evaluation_2003] 
+[cite:berg_implementing_2001]
+[cite:bernstam_unintended_2010]
+[cite:greenhalgh_why_2010]
+[cite:greenhalgh_devils_2010]
+[cite:gremy_information_1999]
+[cite:haux_medical_2010][cite:heeks_health_2006]
+[cite:littlejohns_evaluating_2003]
+[cite:shiell_complex_2008]
+[cite:paley_complexity_2011]
+[cite:topolski_understanding_2009]; strategies for better evaluations
+[cite:ammenwerth_visions_2004-1]
+[cite:campbell_framework_2000]
+[cite:lilford_evaluating_2009]
+; models, methods, and reporting
+[cite:holden_technology_2010]
+[cite:hu_examining_1999]
+[cite:hypponen_ehealth_2012]
+[cite:kidholm_model_2012]
+[cite:wu_systematic_2006]
+[cite:wyatt_when_2003]
+[cite:yen_review_2012]
+[cite:williams_normative_2003]
+[cite:yusof_investigating_2008]
+[cite:brender_stare-hi_2013]
+[cite:talmon_stare-histatement_2009]
+[cite:nykanen_guideline_2011]
+[cite:ekeland_methodologies_2012].
+In ((ontology engineering)) topic, special attention was paid to application of ontologies specially in health information systems 
+[cite:dong_semantic_2011]
+[cite:gurupur_semantic_2014]
+[cite:noy_semantic_2004]
+[cite:noy_ontology_2001]
+[cite:ovaska_knowledge_2010]
+[cite:pinto_issues_1999]
+[cite:long_medical_2001]
+[cite:schugerl_quality_2009]
+[cite:wang_ontology_2004]
+[cite:fernandez-lopez_overview_2002]
+[cite:hitzler_owl_2012].
+
+Based on the literature survey, the {UVON} method was first developed in the study [.romannumup]#1# and then extended in the study [.romannumup]#2#.
+The method was applied in FI-STAR and its seven e-Health application use-cases, for summative evaluation of the individual and whole e-health applications.
+The {UVON} application resulted in an ontology of 400 nodes (of 2 digits of significant) in an ontology hierarchical structure, where the top level 10 quality aspects and their children were considered for formation of the questionnaires (refer to <<chap_questionnaires>>).
+The questionnaires, made in two forms for patients and health professionals, were delivered to all use-cases (including an 8th use-case that was added later to the project) that resulted in 87 answers from the patients and 30 from the professionals.
+
+
+
+
+=== Research Challenges
+
+[.newthought]
+Both questionnaires were delivered to use-case owners to translate them, which turned not to be hassle-free.
+Not all words in English has exact equals in other languages.
+This could become tricky for words such as _efficient_ and _effective_ where among English speakers many are not sure about their differences.
+Also, we as the evaluators, have limited capacity to validate the translations, understand the challenges in each specific language, or measure the degree of flexibility in translation that each translator assumed.
+
+Due to practicalities of the {FI-STAR} project, the use-cases have been asked to participate in the data collection phase.
+This can be prone —as it can be usual in similar survey-based approaches— to human errors, conflict of interests, lower degrees of accuracy, and all other uncertainties associated with this type of measurement.
+
+
+[[chp_from_technology_to_health_information_technology]]
+== From Technology to Health Information Technology
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
+
+[quote.epigraph, 'Arthur C. Clarke [cite:kubrick_2001_1968]', 2001: A Space Odyssey]
+____
+"`Open the pod bay doors, HAL!`" +
+"`I'm sorry, Dave. +
+[.hs1]#{sp}# I'm afraid I can't do that.`" [.endnote]#This scene is a turning point in the _2001: A Space Odyssey_ movie (1968) and novel when
+HAL 9000, the main computer of the spaceship and a symbol of top-notch technology, defies Dave Bowman the captain and main character of the story, suggesting that it was the one who plotted the murder of the crew in staged accidents. Also, HAL confesses that it intended to take control of the mission itself alone because it was programmed to make sure the mission will succeed while it considered the others to be risks to this goal.#
+____
+
+
+****
+the very broad definition of technology
+****
+
+
+[.marginfigurenote,reftext='{fig} {chap-n}.{counter:fig-n}']
+.The cognate words for _technology_ in Avestan (Old Iranian), Sanskrit, and Ancient Greek, all inherited from the Proto-Indo-European language. 
+image::fig_technology_in3langs.png[alt="The cognate words for technology in three languages"]
+
+
+
+
+[.lettrine]
+What is _technology_?
+The answer to this question has the potential to alter fundamentally both the scope and the approach of health information _technology_ evaluation activities.
+It might not be the case that there exists only a unique universally accepted answer to this question; at the same time, it might be high expectation if we think that any answer would draw crisp boundaries around the technology definition in the lexical landscape.
+It is out of our agenda to find an answer or survey on different answers to this question, but the scales suggested by some answers might help us to take a more insightful approach toward the topic of health information technology evaluation .
+
+
+//How can we recognize between technologies and non-technologies?
+//Is the conceptual borders between technologies and non-technologies rigid or blurred?
+//And after all, how does the ability to better recognize between _technologies_ and _non-technologies_ foster our ability to do better evaluation of health information technologies?
+
+
+The word technology, from its deep etymological root, _teks-na-_ meaning _to craft or weave_ in the Proto-Indo-European language footnote:[The extinct common ancestor of Indo-European family of languages.] [cite:harper_technology_2015], to its Ancient Greek incarnation as _tekhnología_ (τεχνολογία) [cite:harper_technology_2015] , to its more contemporary definitions such as the Webster's definition as "`a description of arts; or a treatise on the arts`" [cite:webster_technology_1828] , to its early twenty-century definitions as in _Century Dictionary_, which gives "`spinning, metal-working, or brewing`" as examples of technology [cite:whitney_technology_1902], and finally to its definition in the latest dictionaries as "`the use of science in industry, engineering, etc., to invent useful things or to solve problems`" or "`a machine, piece of equipment, method, etc., that is created by technology`" [cite:merriam-webster_technology_2015], always have had the explicit meaning or connotation of creating something _useful_, while this _something_ has varied from tangible artifacts in older definitions to both tangible and non-tangible things in the current ones.
+
+
+[.marginfigurenote,reftext='{fig} {chap-n}.{counter:fig-n}']
+.Entry for _technology_ in the Century Dictionary (1902). The examples in the definition focus on tangible artifacts.
+image::fig_technology_centurydictionary.png[Entry for the word technology in the Century Dictionary (1902)]
+
+[.newthought]
+Along these linguistic attempts to define _what is technology_, some of the philosophers, usually under the general topic of _philosophy of technology_, reflected upon the essence of technology. Heidegger believes:
+
+[quote,'Martin Heidegger [cite:heidegger_question_1954]',The Question Concerning Technology]
+We ask the question concerning technology when we ask what it is. Everyone knows the two statements that answer our question. One says: Technology is a means to an end. The other says: Technology is a human activity. The two definitions of technology belong together. For to posit ends and procure and utilize the means to them is a human activity.
+
+This philosophical contemplation about the essence of technology suggests a quite broad inclusion criteria for what can be called technology as it is considered to be any "means to an end" and it happens through "human activity".
+Even this broad definition has been challenged by other contemporary philosophers who believe things categorized as technology are too diverse to share a unique defining characteristics semantic [cite:dusek_philosophy_2006,22].
+
+With the above introduction, we should be prepared for a wide angle of perspective on things that can be considered technology or its derivatives as health technology, information technology, or health information technology.
+This wide angle is probably the source of heterogeneity that eventually meets in the evaluation of health information systems. 
+
+
+
+=== Health Technology
+
+////
+[.marginfigure,reftext='{fig} {chap-n}.{counter:fig-n}']
+.An [.myredtext]#ocular prosthesis# (artificial eye) from Shahr-e-Sukhte south east of Iran, dated between 2900 and 2800 BCE.
+image::fig_shahresukhteh_eyeball.png[An ocular prosthesis (artificial eye) from Shahr-e-Sukhte]
+////
+
+
+****
+the vast landscape of health technology
+****
+[.newthough]
+Concluding from the above discussion, the perspective of the _health technology_ definition looks quite wide also.
+If we restrict ourselves to the _useful_ interventions we make to reach the goal of better health conditions, there would be many quite heterogeneous items in the list.
+Examples of the health technology can vary from a ocular prosthesis (artificial eye) implanted in the eyes of a female individual around 5000 years ago to the large corpus of the {SNOMED-CT} ontology, where one intervenes directly, and the other one establish a platform for health care improvement.
+The literature of {HTA} also acknowledges this vast diversity.
+The {INAHTA} glossary defines the health technology as:
+
+[quote,'INAHTA [cite:facey_karen_inahta_2006]',Health Technology Assessment Glossary]
+Any intervention that may be used to promote health, to prevent, diagnose or treat disease or for rehabilitation or long-term care. This includes the pharmaceuticals, devices, procedures and organizational systems used in health care.
+
+
+This vast landscape of _health technology_ definition increases the complexity or cost and decreases the efficiency or effectiveness of any health technology related activity, such as evaluation, that wants to make an inclusive, comprehensive, and uniform approach towards the health technology topic.
+
+****
+the blurred boundaries between the divisions of health technology
+****
+
+Conquering the vast health technology landscape through dividing into sub-disciplines is a strategy that we already do, but it can also be challenging.
+Our diverse cognitive sense and the historical reasons influence how we categorize health technologies.
+In the above health technology definition by {INAHTA}, we can recognize implied divisions by pharmaceuticals, devices, procedures and organizational systems categories, while, the boundaries between these divisions is not very clear.
+For example, a _procedure_ can be a surgical procedure, a procedure within operation team, or an organizational procedure.
+The first and the second type of procedures can be grouped into one while we can do the same for the second and third procedures.
+At the same time, the first and the third procedures can be considered far enough from each other to belong to different sub-groups of the health technology.
+This example can be extended to pharmaceuticals and devices subgroups.
+For example, stomach-resident devices and ingestible electronics [cite:zhang_ph-responsive_2015] are moving toward blurring the difference between devices and pharmaceuticals.
+
+
+
+
+
+
+=== Information Technology
+
+[.newthought]
+The term _information technology_ was coined not long time ago.
+There has been a rise in the frequency of this term since the late 50s and still it continues (image:fig_sparkline_informationtechnology1900.png[alt="ngram diagram of information technology term since 1900"] ) footnote:[The Google NGram viewer was used to investigate this through searching the corpus of published texts in English since 1900.].
+In ((Harvard Business Review)), November 1958 issue, it is stated that:
+
+[quote,'Leavitt [cite:leavitt_management_1958]', Harvard Business Review]
+The new technology does not yet have a single established name. We shall call it information technology. It is composed of several related parts. One includes techniques for processing large amounts of information rapidly, and it is epitomized by the high-speed computer. A second part centers around the application of statistical and mathematical methods to decision-making problems; it is represented by techniques like mathematical programing, and by methodologies like operations research. A third part is in the offing, though its applications have not yet emerged very clearly; it consists of the simulation of higher-order thinking through computer programs.
+
+This early definition of information technology departs clearly from wide possible definitions that could include even the Sumerian tablets in their defined scope of the information technology.
+A definition such as the above might be too limited, or might need revisions along the technological advancements, but it can be more practical than definitions that are too much inclusive.
+Pragmatism in bounding the scope of information technologies enables us to introduce practical evaluation methods for those technologies; still it might ignore the more accurate nature of the phenomenon.
+The balance between pragmatism and comprehensiveness perspectives can be a challenge for the evaluation.
+
+****
+informatics, more to the point 
+****
+
+Probably a more clear account of what we mean by information technology can be addressed by the term _informatics_ and respectively _health informatics_.
+The term _informatics_ is coined by Karl Steinbuch in 1957 [cite:steinbuch_informatik_1957] in his book "`Informatik: Automatische Informationsverarbeitung`", which translates to "`Informatics: Automatic Information Processing`" and shows a separation from other forms of information processing by characterizing it as being _automatic_.
+By this definition —and if we ignore some early analog computing devices such abacus and astrolabe which were also very use-case-specific for accounting and astronomy— the new automated computing devices are all those electronic devices, usually based on transistor technology, that automate information processing.
+Though, this perspective lacks the communication dimension, which nowadays we emphasize more by using the term _{ICT}_ instead of _{IT}_; but we can extend our view —but probably not the _informatics_ term— when talking about the evaluation of health information technology to include both the automated processing and communication.
+
+
+
+
+=== Health Information Technology & Systems
+
+****
+health information systems and health informatics
+****
+indexterm:[Health Informatics]
+
+[.newthought]
+Health information technology inherits heterogeneity and diversity from the both health technology and information technology definitions.
+While being _automated_ in information processing and being intended for some health or health care related outcome creates a practical zone for investigations, such as evaluating those systems.
+
+The terms _health information technology_ and _health information system_ might be used interchangeably in some contexts, but each of these terms has some connotations that we should be clear about them.
+Evaluation of a specific health information technology instance is usually about evaluating that technology in different applications and cases, which gives a wider perspective of evaluation in contrast to the evaluation of a health information system that is about an enumerated set of health information system implementations.
+From the other hand, a health information system can recruit more than one health information technologies, where all those heterogeneous technologies have taken part in the whole of that health information system.
+
+The literature of health technology assessment {HTA} emphasizes on its role in improving policy makings related to health technology [cite:banta_what_2009] and considers lots of economical considerations that implies the _health technology_ in {HTA} is less concerned about specific instances.
+From the other side, relying more on adoption and acceptance of technology [cite:ammenwerth_it-adoption_2006;holden_technology_2010] shows health information system evaluation literature is more concerned about specific implementations that consists of technologies and human agents combined in the form of a unique system.
+It can be imagined that this separation between domains of concern is not very crisp and clear in all cases or studies, still a bit of more clarification can explain more about the intentions of an evaluation or a related study.
+
+
+
+****
+the composite nature of health information systems
+****
+[.newthought]
+The term _automatic_ should not filter out non-automatic agents in evaluation of health information systems.
+Health information systems can be composed of automated and non-automated information retrieval, processing and communication agents, including computers and human agents.
+While we can narrow our focus on cases that include at least one informatics technology but we cannot ignore the wholeness of the system.
+The outcomes and quality attributes that we demand from a system are the productions of all subsystems working together.
+
+The holistic and functional perspective on health information systems also implies that a health information system can maintain its core characteristics and functionality while the underlying technologies can be changed totally.
+This is a drastic departure from the health technology and its volatile character.
+In the holistic and functional view, the technological changes do not change our perspective and approach to evaluation of health information systems and the evaluation aspects maintain to live much longer than the life of the underlying technologies.
+
+
+[.marginfigure,reftext='{fig} {chap-n}.{counter:fig-n}']
+.Simorgh is a mythical bird in Persian literature, known for the power and knowledge of healing. Photo source: From Anvar-I Suhayli (1610) by unknown artist.
+image::fig_simorgh.png[alt="The healing Simorgh"]
+// wrapfigure_with_margin_caption
+
+
+
+
+[.graybox]
+=== Simorgh story and the persistence evaluation aspects
+[.newthought]
+Consider this extreme example on how evaluations aspects in health information systems can sustain even across the imaginary and real world:
+
+Simorgh is a mythical bird in Persian literature, known for the power and knowledge of healing. 
+In one episode of Shahnameh epic by Ferdowsi (936–1020), Zal, a mythical hero, _summons_ Simorgh by burning a feather of her, and asks to tackle the situation of prolonged labor of his wife.
+Instead of any direct healing, Simorgh instructs techniques for anesthesia, Caesarian section, and the sterilization after surgery.
+The outcome of this intervention is the successful birth of Rostam, the mythical superhero of the Iranian culture.
+
+Today, we can _summon_ a health app in a mobile phone and receive case-specific medical information anywhere, anytime, and in a quite ordinary but non-mythical way.
+An instant health-informative entity that used to be imaginary, and even rare and exclusive in that imagination, has turned to become real, abundant and increasingly available to all. 
+Still, this animated fantasy needs to be evaluated if it has reached the level of promptness, accuracy, and effectiveness as well as its mythical counterpart, i.e. Simorgh, or not.
+It is interesting to note that the quality aspects that were mentioned or implied in the Simorgh myth, such as promptness, availability, trustworthiness, accuracy, and effectiveness have not changed much by moving from the context of myth with no materialistic reality to the context of the materialistic world of m-health apps.
+
+
+It looks like a paradox that we sometimes use _health information technology_ and _health information system_ terms interchangeably; while at the same time, a functional perspective on _health information systems_ can make them invariant against technological changes.
+The same story can be true between different levels of technology, for example, from the user perspective the mobile communication technology is the desired functionality, and the type of transistor technology being used in the mobile device is not important for the most of users.
+Here, the functionality survives much longer than its underlying technologies making the evaluation (of system or technology ?) to sustain for a longer time.
+
+[[chp_on_evaluation_of_technology]]
+== On Evaluation of Technology and Health Technology
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
+
+
+
+[quote.epigraph, The Evil Queen, Snow White]
+____
+image::fig_whoisfairest.png[title=""]
+…Who is the fairest one of all? [.endnote]#The question that the Evil Queen used to ask the magical mirror and used to received the same answer until the day that Snow White became the fairest. The painting is from _My Book of Favourite Fairy Tales_ painted by Jennie Harbour (1893–1959).#
+____
+
+
+
+
+
+
+// Magic mirror on the wall, who is the fairest one of all? 
+
+////
+
+
+"Thou, Queen, thou art fairest in all this land;
+But over the hills, in the greenwood shade.
+Where the seven dwarfs their dwelling have made.
+There Snow-White is hiding her head; and she
+Is lovelier far, O Queen, than thee."
+////
+
+
+****
+the main goals of the health information systems evaluation
+****
+
+[.lettrine]
+Health information systems evaluation finds its roots in technology acceptance models, information systems evaluation, and health technology assessment.
+Investment and policy making is a recurring theme for many of _technology assessment_ studies, sepecially the {HTA} studies [cite:banta_development_2003], where the same is true for evaluation of other types of information systems [cite:irani_information_2002]. 
+{HTA} also has another major concern, and that is the clinical effectiveness of a health technology.
+From the other hand, _acceptance_ studies focus more on _usefulness_ by measuring acceptance of a particular technology or system [cite:holden_technology_2010].
+Banta suggests extending the scope of technology assessment to include evaluating acceptance in addition to other subjects such as diffusion and transfer, or social impacts [cite:banta_what_2009].
+
+****
+reported to be challenging
+****
+
+Evaluation of health information systems is a challenging endeavor and prone to failure [cite:littlejohns_evaluating_2003;kreps_is_2007;greenhalgh_why_2010].
+A systematic review in 2006, while confirms positive impact of health information technology in some aspects, but warns about mixing results in time utilization, insufficiency in data on cost, low availability of evidence in specific aspects, and states that many of the results in the studies cannot be generalized [cite:chaudhry_systematic_2006].
+We discuss some of these challenges here.
+Also, some of the models and frameworks that tried to frame the technology evaluation or address its challenges were considered.
+
+
+
+
+
+
+
+
+
+
+
+
+=== Theories of Technology and Health Technology Evaluation
+
+****
+model-based theories
+****
+
+[.newthought]
+Evaluation is about discovering success or failure in some specific aspects of a system, whether in a summative manner at the end of system implementation or in a formative manner during the development of the system with the focus on development itself.
+
+The criteria for success in technology, in general, and health technology, in specific, have been discussed in different studies.
+These criteria go beyond the intended functionalities of system to include qualities they expose [cite:holden_technology_2010;berg_implementing_2001].
+
+Models such {TAM}, {TAM2}, {UTAUT} put the _acceptance_ as the cornerstone of success in a technology implementation [cite:hu_examining_1999][cite:venkatesh_user_2003], where acceptance can be detailed more as usage when it is voluntary or keep it as the overall user acceptance when then usage is mandatory
+[cite:goodhue_task-technology_1995;ammenwerth_it-adoption_2006].
+{TAM} and {TAM2} put _behavioral intention to use (acceptance)_ at the center and then expand it _perceived usefulness_ and _perceived ease of use_ determinants [cite:davis_perceived_1989;holden_technology_2010].
+Almost similar to {TAM} and {TAM2}, {UTAUT} considers _performance expectancy_, _effort expectancy_, _social influence_,and _facilitating conditions_ as the determinants of acceptance.
+The {TTF} puts the fit between the task and technology as the major indicator of success [cite:goodhue_task-technology_1995].
+The {FITT} model puts the interaction between the user and task in the {TAM} and {TTF} combination by creating a triangle of _fitting_ relations between task, technology, and individual [cite:ammenwerth_it-adoption_2006].
+
+[.newthought]
+In an evaluation, instead of detailing from an abstract model, we can take a bottom-up approach by case-by-case eliciting the required qualities from the stakeholders of case system.
+Requirement engineering is the practice that takes this approach [cite:cheng_research_2007] .
+There are pros and cons for model-based or elicitation-based approaches; study [.romannumup]#1# explores some of them.
+
+****
+what to evaluate?
+****
+
+[.newthought]
+A major considerations in any evaluation, whether model-based or elicitation-based, is to determine _what_ to evaluate.
+Model-based approaches introduce the major evaluation aspects, such as _acceptance_ through their models.
+More specific model-based approaches divide those generic aspects into more specific ones.
+For example, ((HTA Core Model)) by {EUnetHTA} defines 7 evaluation aspects [cite:lampe_hta_2009]; {MAST} a derivation of this model reorganize this into 9 domains (evaluation aspects, more specific to ((tele-medicine)) field [cite:kidholm_model_2012].
+Elicitation-based approaches do not propose evaluation aspects directly, but the output of requirement elicitation activity is a set of qualities —in addition to functionalities— that determines the quality aspects to be evaluated later.
+This elicitation-based approach might encounter the challenge of partial overlaps or partial heterogeneity between quality aspects that makes them not to aggregate to each other well.
+
+The answer to _what_ to evaluates need some insights about the scope and nature of evaluation, which some of them is discussed in the rest of this chapter.
+
+=== The challenge of new or evolving qualities
+
+****
+static evaluation frameworks and their challenges in keeping relevant
+****
+[.newthought]
+
+The challenge of diversity in evaluation aspects for {a-hcis-s} is usually addressed by suggesting a universal static list of evaluation aspects.
+Many of previous works [cite:ammenwerth_visions_2004], or recent generic frameworks such as {eunethta}: _HTA Core Model_ [cite:lampe_hta_2009], {oecd}: _Health Care Quality Indicators Project Conceptual Framework_ [cite:kelley_health_2006], or recent field specific models such as _{mast}_ [cite:kidholm_model_2012] are example responses to the diversity challenge which try to address the _what to evaluate_ [cite:yusof_investigating_2008] part of the evaluation by suggesting universal static list of evaluation aspects.
+
+
+While the responses mentioned above provide unified frameworks for evaluating different health technology cases in a universal form, but they are static frameworks with no mechanism for accommodating unforeseen, time-variant, or context-specific evaluation aspects.
+Being static and unable to accommodate new aspects, and at the same time trying to be universal, in contrast to being case specific, can weaken the relevance relation between those frameworks and a case, hence making it challenging to apply the framework.
+
+
+
+
+=== Choosing the Episode to Evaluate
+
+
+
+****
+the challenge of choosing the episode
+****
+
+
+[.newthought]
+The episode of intervention propagation is a major determinant for fixing other variables, such as the temporal scope (when to evaluate) or the spatial scope (the impact on who or on what should be evaluated) .
+
+Clinical (or epidemiological) episode can be of decisive importance for impact evaluation of any health care intervention.
+The evaluation of clinical episode is usually dominated by clinical trial methodology [cite:williams_normative_2003]; but for {a-hcis} it is subjected to some challenges and limitations, such as those in application of {rct-s} or identifying objective parameters to evaluate [cite:shcherbatykh_methodologic_2008;burkle_evaluation_2001].
+From the other end, evaluation of a {a-hcis} just as a standalone system, i.e. at the very early episode of impact propagation journey, can barely be considered a matter of {a-hit} topics.
+An isolated or technical evaluation of {a-hcis} is probably a matter of concern for other technology disciplines, such as software engineering.
+Between these initial and ending episodes of impact propagation, there exist one or more episodes where the {a-hcis} can be evaluated by its impact on the surrounding health setting, processes, or knowledge.
+As defined by {who} the health setting is "the place or social context in which people engage in daily activities in which environmental, organizational, and personal factors interact to affect health and wellbeing" [cite:world_health_organization_who_1998].
+This definition can be detailed or be extended by taking into consideration the processes and embodiments of knowledge within that space or context beyond just the entities.
+Many evaluation frameworks focus on addressing the evaluation of this range of impact propagation episodes and their corresponding health settings.
+
+//  First of all, waves of an intervention, especially a {a-hcis}, are not guaranteed to reach the shores of clinical episode in their original and pure forms. 
+//  First of all, waves of an intervention, especially a {a-hcis}, are not guaranteed to reach the shores of clinical episode, creating a scietfically ()
+//  Clinical effectiveness, in terms of mortality, morbidity, or any indicator similar to {qaly}  is hardly expected to be impacted by some sort of {a-hcis-s} intervention, specially if small scope is being observed.
+//  For example, a {a-hcis} that reduces human labor in inpatient admission process is hardly expected to reflect scientifically observable clinical effectiveness in a hospital setting scope.
+//  But a nation-wide deployment of such systems might have better chance for an indirect but measurable impact , as it enables reallocating budgets to other demands, hence facilitates some nation level impact in clinical level.
+//  Evaluating clinical effectiveness of {a-hcis} is prone to failure in {rct} method [shcherbatykh_methodologic_2008;burkle_evaluation_2001].
+
+
+
+
+
+
+
+
+
+****
+evaluation aspects, internal or external
+****
+[.newthought]
+Evaluation aspects, i.e. the answers to _what to evaluate_, from an intervention are constrained if the episode of impact propagation, the actors in that episode, and the time of observation are already determined. 
+Evaluation aspects can be both extracted from internally defined requirement documents of a system or be adapted from a universal external evaluation framework.
+Here the requirements are those quality attributes (non-functional) that are expected from the system by its stakeholders and determine the overall qualities of the system [cite:dobson_domain-independent_2007].
+In a different approach, a universal external evaluation framework, by probably sampling similar systems, determines universally what quality attributes are supposed to be required for that type of systems.
+In any of indigenous or exogenous origins of evaluation aspects, for an overall evaluation of the system it is needed to find an aggregation and integration method for individual actors' responses in each specified aspect.
+The aggregation and integration add to the problem of _what to evaluate_; as their successful implementation is challenged by the heterogeneity of actors and their responses, and by how relevant each evaluation aspect is for each actor.
+
+
+[#fig_intervention_propagation,reftext='{fig} {chap-n}.{counter:fig-n}']
+.Health information system intervention propagation
+image::fig_intervention_propagation.png[alt="Intervention propagation"]
+
+
+=== Spatial Scope of Evaluation
+
+
+****
+the challenge of the right spatial scoping
+****
+
+
+
+[.newthought]
+Spatial scoping comes after determining the intended propagation episode. 
+Different spatial or temporal scales in the evaluation of a {a-hcis} can result in different outputs.
+The spatial and temporal dimensions are not necessarily dependent, hence fixing the scale in one might determine, or limit, the scale in the other one.
+Fixing the spatial scope, i.e. determining the actors engaged in that episode, lets us consider a stable situation based on the impact response of those actors. 
+Reaching the stable situation, if there exists any, determines the minimum time we should wait to be able to evaluate.
+In some cases, observing beyond this minimum time might change our insight about who is involved in that episode, hence changing the spatial scopes in the other way.
+
+
+In the spatial dimension, references to evaluation aspects indicate, explicitly or implicitly, the context, the environment, or the actors in the space for which the evaluation should be or can be performed.
+For example, the organizational aspect mentioned in {mast} framework [cite:kidholm_model_2012] suggests the organization scope and its relevant members as the scope of the evaluation.
+
+
+
+****
+network blindness cognitive fallacy
+****
+
+[.newthought]
+Negligence about the networked nature of many {a-hcis-s} can be a cognitive fallacy in determining the right spatial scope of evaluation of {a-hcis}.
+Many of the {a-hit-s} address a group of people together but not separated individuals [cite:lilford_evaluating_2009].	
+//  The current style of technology assessment, both at the definition level and the available literature level, focuses more on the  _instances_ of technology implementation \citep{} \mytofix, while in many real life situations we encounter a socio-technical network, i.e. an organization of different instances of technology implementation interacting with a network of stakeholders, which present a whole that its elements should be evaluated uniformly.
+{a-hcis-s} are examples of such socio-technical networks [cite:winter_health_2011], where the health care value is created, delivered and consumed in a network of different technologies and different stakeholders.
+
+
+//  and should be evaluated with regard to other same-context instances or the whole.
+
+//  These instances might be organized as a serial chain of value production, or each might have its own specific parallel contribution into a combinational health care value, or they might be arranged in more complex forms which consist of different serial, parallel, and feedback value streams.
+
+
+
+//  [.newt]#The first challenge#, associated with this comprehensive definition of technology, is the variance and diversity in assessment, in terms of scope and approach, both in analysis and reporting stages .
+
+
+//  [.newt]#Two modes and challenges# arise at least, when the approach to technology assessment changes from individuals to network of individuals.
+
+****
+the four zones of health information ecosystems
+****
+[[sec-pap-uvon-suid]]
+=== Health Information Ecosystems
+
+[.newthought]
+To better understand the ecosystemic nature of {a-hcis-s} and their working context, let's consider a model that specifies classes of actors, their contexts, and their interactions as it is metaphorized in <<fig-pap-uvon-generic-suid-model>> and acronymized as {SUID}.
+
+In this model, an ecosystem is formed around a set of {a-hcis-s} that are targets of evaluation.
+The {a-hcis-s} and the digital environment where they reside, and probably interact with each other, is called the _digital actors_ zone (the stem:[D] zone).
+The community of other digital software or hardware entities, more likely working as infrastructures serving digital information and communication technology services to the digital actors and also the user actors, is recognized as another zone, called _digital infrastructure_ zone or simply the _infrastructure_ zone (the stem:[I] zone).
+The infrastructure zone has more blurred boundaries due to its definition.
+The users community and their interaction with each other, related to those {a-hcis-s}, is called _user actors_ zone (the stem:[U] zone).
+The social and the physical environment that hosts these users is recognized as _socio-physical_ zone (the stem:[S] zone).
+This zone also lacks crisp boundaries due to its definition. 
+
+
+The model emphases that each of these four zones is neighboring the other three ones.
+These adjacencies create six connection points between the zones.
+Each of these six connection points represents the flow of value, information, or other exchangeable objects between the two zones.
+We can consider that each connection point is made of two unidirectional channels, each lets the flow of value, information, etc. in the opposite direction of the other.
+In this sense, we have twelve connection channels, through which a zone, or one or more of its members, receives values or information from another zone, or one or more of its members.
+Each of these channels can be shown by a notation like stem:[X \longrightarrow Y], where stem:[X] and stem:[Y] can be any of stem:[D], stem:[U], stem:[I], stem:[S] zone symbols.
+
+[#fig-pap-uvon-generic-suid-model,reftext='{fig} {chap-n}.{counter:fig-n}']
+.SUID Model for Health Information Ecosystems
+image::fig_suid_generic_model.png[alt="SUID model for health information ecosystems"]
+
+
+
+=== Semantic Scopes
+
+
+****
+the very broad defintion of {a-hcis}
+****
+	
+[.newthought]
+{a-hcis-s} inherit this diversity from {a-hit} definition.
+The prevalent presence of information concept in different forms of health technologies is the connecting line that suggests this inheritance.
+While traditionally, the term _{a-hcis}_ refers to software systems that are implemented on digital electronic devices, but in the context of evaluation, separation of this kind of information technology from other _information_ related technologies is not justified.
+{a-hcis-cap}, as health specific information system, refers to "socio-technical subsystem of an institution, which comprises all information processing as well as the associated human or technical actors in their respective information processing roles" [cite:winter_health_2011], with the specialty in health.
+This definition can be also extended to encompass larger and smaller scopes instead of an institution.	
+The extents of {a-hcis} definition can be blurred as in a more relaxed view, a stethoscope is a device that senses signals and represents the amplified information in audio format; written instructions or procedures are software applicationss running on human hardware; and even pill is a chemically encoded information package to be received by cells.
+
+=== Temporal Scope of Evaluation
+
+
+****
+temporal boundaries challenges
+****
+
+
+[.newthought]
+Temporal boundaries can be quite challenging for an evaluation framework to suggest.
+When an evaluation framework has positioned itself at the clinical level, then it can follow up the rules and traditions in medical science for determining the temporal scale, i.e. to determine _when_ is the right time for performing the evaluation.
+But when the evaluation framework is positioned in between the intervention and the clinical stage, i.e. evaluating the impact on health setting in our case, then there is usually a list of heterogeneous evaluation items which do not necessarily share the same response time to the intervention.
+
+We should also pay attention to two types of interventions, the one that wants to return the situation to a predefined baseline situation and the one that want to improve the current situation beyond the previous history. 
+In this sense, evaluations at clinical level can usually be categorized in the first group where it is assumed that there is a normal, albeit adjusted, healthy situation for an individual (or a population), and the intervention should just revert the physiological or psychological situation to that state.
+However, the impact on health setting might be of both improvement or reverting nature.
+Evaluation time scope for the reverting case is related to the baseline situation, the probability of fully reverting, and the speed of reverting.
+While the evaluation of improvement case is related to the stability of changes and impacts.	
+
+Things get more complicated if we assume there is no permanent impact; hence each impact is subjected to some attrition or deformation rate.
+Even more, the goals that the impacts are supposed to fulfill can erode along the time [cite:greenhalgh_why_2010].
+It is not a guaranteed grace to find a period during the life course of a heterogeneous health setting including the under study {a-hcis}, where all the impacts have reached the state of maturity and stability but none has reached attrition.
+
+****
+context and technology imposed temporal scopes
+****	
+
+Another challenge with suggesting a temporal framework for evaluation is the context of evaluation itself.
+The evaluations that are part of policy making, project assessment, investment performance evaluation, or other time-bounded activities should comply with practical considerations of the whole activity rather than just focusing on the best time for evaluation.
+The value of long scopes of time in evaluation can be challenged if it is anticipated that new interventions, of totally new characteristics, might replace the current intervention.
+In this regard, {a-hta} literature has not much incorporated the dynamic nature of technology in the assessment [cite:douma_methodology_2007].	
+
+
+
+
+
+// 	Evaluation frameworks are mostly silent about the temporal dimension and the scale should be cons.
+// 	For example, {eunethta}
+
+
+// 	The diverse nature of {a-hit} interventions can suggest that some sort of intervention, similar to health promotion interventions devolutions, need some years after the intervention to determine the impact.
+
+=== Evaluation of Emergent Systems
+
+
+
+****
+emergent aspects
+****
+
+[.newthought]
+Holistic evaluation of health information systems is not guaranteed, even if one succeeds in identifying all the involving actors and creating a unified set from their _exposed_ evaluation aspects.
+Unintended and unforeseen impacts might be caused, amplified, or ignited by the {a-hcis-s} intervention [cite:harrison_unintended_2007].
+Some of these impacts are caused directly by {a-hcis-s} but as they are not intended and are sporadically reported, they have a challenging path to reach the set of documented evaluation aspects.
+
+In the presence of insight about the networked and complex nature of health care socio-technical environment [cite:shiell_complex_2008], beside both the intended and unintended direct impacts, the _emergence_ type of impacts that are not associated directly with individual {a-hcis-s} are also matters of concern.	 		
+Emergence behaviors are those behaviors, usually unintended, that appear in a complex system as a result of individual members' activity and interactions, whereas those behaviors are not the properties of any of those individuals separately and cannot be evaluated by observing at the scope of an individual [cite:halley_classification_2008].
+The intervention of a {a-hcis} within a complex health setting, let's say ecosystem, can contribute to the formation of some emergent behaviors and emergent impacts.
+// 	That would be more challenging to recognize, and hence to evaluate, the emergence types of impacts as they are not directly associated with instances of {a-hcis} intervention.
+
+
+****
+conflicting aspects
+****
+[.newthought]
+Negligence or blindness about an unintended or emergent impact would limit the effectiveness of an evaluation framework, but a more important question is whether those would also invalidate the evaluations or not.
+Frameworks that have positivist approach and focus on scientifically measurable indicators are more prone to miss the overall observations about a {a-hcis} intervention [cite:greenhalgh_why_2010], including the emergent impacts.
+Some of these overall observations might contradict the more detailed indicators.
+For example, any positive evaluation based on the decrease in _emergency department length of stay_ can be faded if there would be an increase in _patient's estimate of the total length of stay_ [cite:parker_emergency_2014].
+The first indicator is an objective and measurable aspect, whereas the second one is more of a subjective and emergent nature.
+An imaginary {a-hcis} that improves the first one, might have a negative impact on the second one.
+While it might be unjustified to except that an evaluation framework enlists unpredicted evaluation aspects, but it is reasonable to expect that an evaluation framework is dynamic enough to accommodate new or case-specific insights about more holistic evaluation aspects or resolutions about conflicting ones.
+
+////
+=== Evaluation of Health Care Systems as Complex Systems
+
+
+[.newthought]
+Health care systems categorize as complex adaptive systems (CAS)
+
+////
+
+=== Intended and Unintended Impacts
+
+
+****
+intended and unintended impacts
+****
+
+[.newthought]
+When evaluating the impact of {a-hcis} on a health setting, any reference to the impact of an intervention on those health setting should be insightful about the extents of impact definition.
+
+Impacts of an intervention, in a counterfactual manner, are recognized by differences between the condition of presence and absence of the intervention [cite:ferraro_counterfactual_2009].
+In this sense, evaluating the impact of an intervention also encompasses those effects that are side-effect, unintended or are part of the intervention structure and embodiment.
+For example, the learning curve of a new {a-hcis} and the time allocation needed to address that is an unintended impact, which is usually tried to be minimized as much as possible.
+Sometimes it can be tricky to recognize if a quality refers to an intended value or an unintended effect.
+For example, a {a-hcis} might _increase efficiency_ in a health setting by reducing the number of tasks hence the _efficiency_ is the intended impact of that {a-hcis}; but at the same time, another {a-hcis}, such as a medical image processing application, can also be _efficient_, in that sense that it does not take too much time for creating its intended results.
+In the first case, the {a-hcis} contributes to the total efficiency as it is intended, whereas in the second case it avoids contributing to inefficiencies by being efficient itself.
+Here in the second case, efficiency is none primary or an unintended impact.
+With this insight, evaluating the impacts of a {a-hcis}, in episodes before the clinical episode, involves evaluating the main intended impacts, side effects, or by-products of the intervention.
+
+
+
+//  They cannot declare success if they fail in clearly positioning themselves in the context , specify what scope they are addressing  the inevitable loss of details that happens through modeling worth the insight that is gained through simplification
+
+
+//  [.newthought]#The Failure# in the evaluation of {a-hit-s} can be attributed to different factors, including, the multifaceted nature of {a-hit}, how it is situated in its application context and how complex the context is, how we approach to analyze it regarding our limited cognitive capacities, 
+
+//  [.newthought]#Frameworks# are supposed to enhance us in encountering failure pitfalls in evaluating {a-hit}.
+//  They model the multifaceted nature of the {a-hit} by
+//  and from the other side the limits in our cognitive capacities, or lack of consensus on methods to compare poly-facet {a-hit-s} implementations with each other for the sake of evaluation.
+// 	Health care systems are complex systems \citep{}. 
+// 	The final receivers of the value created in health care systems, i.e. individuals and populations, are also complex themselves in responding to health care interventions.
+
+//  The more complex layers it should cross, the more challenging the evaluation becomes.
+// In this sense, the evaluation of {a-hcis-s} at their final destination of their value, i.e. individuals or populations, can be so complex that usually evades scientifically favored RCT methods \citep{}.
+
+== Semantic Networks and Ontologies
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
+indexterm:[Semantic Networks]
+
+
+[quote.epigraph.verse, Hafez (1325–1389), The Lyrics ]
+____
+And in that mirror +
+[.hs1]#{sp}# a hundred kinds of observations +
+[.hs2]#{sp}# he could make 
+[.endnote]#In the poem that this verse belongs to, Hafez describes himself seeking for the Cup of Jamshid, a mythical cup belonging to Jamshid, the king of the world in myths, that one could see all the world through it. He finds an unexpected clue from the Old of Magies in the rest of the poem.#
+____
+
+////
+He finds his answer from the Old of Magies, a very special personage in Hafez poems, when he was making a hundred kinds of observations by looking into his cup of wine, where wine is a core metaphor in Persian literature with a variety of connotations including a joyful wisdom.
+////
+
+****
+we model in languages
+****
+
+[.lettrine]
+We model the world by a very ubiquitous and continual practice of communicating about _things_ through the languages in their oral, written, or gestural forms.
+Languages map the whole perceivable world, whether real or imaginary, and what ever happens inside that into a finite number of discrete and almost crisply separated elements, i.e. words, in an infinite set of combinations as sentences or larger structures that are constructed by the finite rules of grammar.
+Math, the foundation of a large part of modern science, can be considered as a small subset of (a common) language, borrowing a small set of words, composing them through a very limited and constrained rules and producing an infinite set of forms that many of the phenomenon of the world correlate with correlate with some of those forms very closely.
+Software also mimics, probably even closer than math, some parts of language —calls it programming language— to model a real world business, a possible social system, a future physical phenomenon, etc.
+In all languages and their derivatives such as math and software, theoretically, a dictionary (a lexicon) and a grammar book together —ignoring the difference between languages— contain all the required basic elements that we need to model, preserve, and communicate all the non-tacit knowledge we already have gained.
+Of course, in most of the scientific or technological disciplines, the ingredient we are looking for is not the words or grammar, but the skill of composing them into a meaningful and probably useful constructs larger than words.
+
+****
+other ways of modeling rather than the languages
+****
+
+Languages are not the only way of modeling the world; artistic expressions, such as paintings and music —hard to be categorized as parts of a language in its traditional definition— nevertheless can capture something about the realities in the world.
+// In another scale, biology has also created a method of modeling the world through partially reconstructing it in the neural system of some families of life.
+But unlike languages and their derivatives, the art of painting or music composition do not come with unique and comprehensive dictionaries that contain mapping between all fundamental painting patterns (if such thing exists) or music pieces and their corresponding sense or meaning, nor we have a comprehensive book enlisting all possible ways of conjugating those painting or musical patterns to make all perceivable senses.
+The same is true for music, where while we could partially capture modal music through discrete notations, but each piece of notation does not map to a unique and predefined sense.
+
+
+
+[#fig_tolstoy_war_and_peace_9th_draft.marginfigure,reftext='{fig} {chap-n}.{counter:fig-n}']
+.From the 9th draft of the _War and Peace_, of Leo Tolstoy, hand drafted by Sophia his wife, depicting French invasion of Russia in [.myredtext]#1812#. Source: [cite:tolstoy_war_1961].
+image::fig_tolstoy_war_and_peace_9th_draft.png[alt='Snippet from the 9th draft of the War and Peace']
+
+
+
+[.newthought]
+To better understand the differences between semantic and non-semantic models, let's consider the French invasion of Russia in [.myredtext]#1812# by Napoleon as an example.
+There are many accounts of this historical incident in forms of historical studies, fictions, paintings, sculptures, movies, and pieces of music.
+Among these accounts of the incident, "War and Peace", a voluminous novel by ((Leo Tolstoy)), depicts a story based on the incident in a sequence of more than half a million words.
+All the words and the possible ways of combining them at sentence level can be found in a comprehensive-enough Russian language dictionary and grammar book.
+Each sentence of the book can be represented in a graph (a parse tree such as ((Reed Kellogg diagram))s) where words get connected to each other through other words.
+The whole book is a collection of those graphs along a timeline.
+
+
+//wrapfigure_expand_to_margin
+[#fig_northen_painting,reftext='{fig} {chap-n}.{counter:fig-n}']
+.The "`Napoleon's retreat from Moscow`", painted by Adolph Northen in 1866, captures and reflects some mostly tacit knowledge (pointed by [.myredtext]#circles#) about Napoleon, his retreat, his devastated Grande Armée, and the Russian winter weather in his [.myredtext]#1812# invasion to Russia. Source: [cite:northen_napoleons_1866]. indexterm:[Adolph Northen]
+image::fig_napoleons_retreat_from_moscow_adolph_northen.png[alt="Napoleon's retreat from Moscow by Adolph Northen"]
+
+
+
+Amongst other representations of the [.myredtext]#1812# incident, there are also paintings.
+((Adolph Northen)) painted "`Napoleon's retreat from Moscow`" in 1866; the artwork that captures and reflects about Napoleon, his retreat, his devastated Grande Armée, and the Russian winter weather of 1812.
+While this artwork is composed of a finite set of color in a palette and probably recruits some documented painting techniques and visual patterns, but there is no reference enlisting all those curves or mapping each to a concept —while theoretically it is even possible to capture all the curves and colors in a language such as ((PostScript)).
+The whole picture tells a story and the smallest sensible parts (note the [.myredtext]#circles# by the author) probably cannot be found anywhere else.
+The parts are not connected in a recognizable graph —probably except a two-dimensional adjacency graph— and cannot be fed int to the algorithms that understand graphs for further investigation and inference.
+
+
+// wrapfigure_with_margin_captio
+[.marginfigure,reftext='{fig} {chap-n}.{counter:fig-n}']
+.Part of the original music manuscript of "Overture [.myredtext]#1812#" composed by Pyotr Ilyich Tchaikovsky (1880). Source: [cite:tchaikovsky_1812_1880]. indexterm:[Tchaikovsky]
+image::fig_tchaikovsky_notes_1812.png[alt="Overture 1812 by Tchaikovsky"]
+
+
+
+
+
+
+
+Pyotr Ilyich ((Tchaikovsky)), also reflected upon the [.myredtext]#1812# incident in his 1812 Overture piece of music.
+The overture combines different melodies, including the Russian _the Holy Cross_ and the French _La Marseillaise_ and narrates the conflict and the final victory in musical expression forms.
+This musical artwork is different from a painting as it is documented by a series of music note symbols in its music manuscript; but still almost no part of the manuscript can be associated universally to a concept —while it may universally induce similar feeling.
+Same as painting, the parts of this overture do not expose any unique and clear graph of relations —probably except the adjacency.
+
+
+[#minard_infographic.fullfigure,reftext='{fig} {chap-n}.{counter:fig-n}']
+.Minard's infographic work in 1869, depicting Napoleon's [.myredtext]#1812# Russian campaign army movement path, number of soldiers, and temperature all along the time. Source: [cite:minard_napoleons_1869].
+image::fig_minard_infograph_1812.png[Minard's infographic work in 1869]
+
+
+
+
+
+////
+[.marginfigurenote]
+image:fig_minard_infograph_1812.png[] +
+Minard's seminal infographic work in 1869, depicting Napoleon's [.myredtext]#1812# Russian campaign army movement path, number of soldiers, and temperature all along the time.
+Source: [cite:minard_napoleon_1869].
+////
+
+
+
+In our last example, Charles Joseph ((Minard)) created an illustration, today we call it ((infograph)), that depicts Napoleon's [#myredtext]#1812# Russian campaign army movement path, number of soldiers, and temperature all along the time [cite:minard_napoleons_1869].
+This illustration, although a painting, is actually a visualization of a table that consists of the columns of time, location, number of soldiers, and temperature [cite:tufte_visual_2001].
+This illustration can be modeled through a graph, the same way a table can be represented.
+This is actually a semantic piece of information that is represented in a visual format.
+
+
+[.newthought]
+As shown in the above examples, semantic networks are not the only way of capturing and communicating the knowledge about a case, but they are a very important and common one.
+A subset of semantic networks with controlled sets of concepts and relations facilitates processing of those networks for systematic and algorithmic approaches.
+Evaluation of health information systems can take advantage of those controlled verb or curated semantic networks (((Semantic Networks))) for the sake of more systematic and algorithmic evaluation.
+
+=== Ontologies
+
+
+
+****
+what are the ontologies
+****
+
+[.newthought]
+Ontologies are the explicit and specific captures of concepts, and some of their relations, in a domain of knowledge [cite:noy_ontology_2001].
+They talk about concepts or objects in an area of concern and how they are related.
+This definition is almost compatible with the definition of ontology in philosophy discipline —although it is out of the scope of this dissertation.
+
+Although it is not always clearly mentioned, the each ontology is essentially a network graph, with a finite number of node elements, connected through a finite number of relations.
+Semantic networks are also essentially the same concept, with historically different roots; of course, different implementations of ontology or semantic network notations might be different in features.
+In some of the minimal-form ontologies, such as a list of concepts, the relations are not mentioned explicitly, but there are always at least one implied relation that considers all the elements in a set to be children of a parent concept.
+This parent concept can be the name of the set, or at least it can be the _thing_ concept that is a parent to any other concept.
+Many of other ontologies represent at least the _hierarchical_ relations between the concepts or objects, specifying which concept or object is the parent, super-class, or the more abstract form of some other concepts or objects; or vice versa, which is the child, sub-class, or more specific concept to which.
+
+****
+many different notations for ontologies
+****
+
+Ontologies can be represented in different notations.
+Verbal, tabular, or graph-based notations can have the same functionality in their representations.
+Many of the ontologies are in plain text format but representing to a computing-friendly format can help maintenance, development, integration, and data-mining of those ontologies.
+Each discipline has its favorite notation for their related ontologies.
+For example, the {OBO} format is a common format in bio-medical science, while {OWL} as a generic ontology notation.
+
+
+
+****
+using ontologies to model a small number of cases
+****
+
+[.newthought]
+Normally, ontologies are being developed for specific fields of knowledge with many instances rather than for specific cases.
+This makes sense, since ontologies, as one their major functionalities, try to jump the chasm of the case by case understanding and represent a whole for a class of cases which is better for communication and understanding.
+But the advantages of the concrete, explicit, preservable, and reductionist way of representing knowledge through ontologies can be utilized even when there exist only a few cases of the same class.
+
+Even with one case, and ontology empowers us to infer more about the nature of the case.
+An ontology can capture many aspects of a system in its network and feed them to inference and data mining engines.
+Aggregation, unification of concepts, and integration between few cases are amongst other reasons that ontology construction can be applied to a class of cases with few members.
+
+****
+using ontologies in the evaluation of systems
+****
+
+[.newthought]
+The evaluation process can benefit from the ontological capture of the systems that are supposed to be evaluated.
+Ontologies can capture and reflect the knowledge we have gained through elicitation of requirements.
+Actually, diagrams in {UML}, which is popular in documenting the requirements of systems, are some form of ontological notations.
+
+Ontological representation of a system exposes it to automated or semi-automated evaluation algorithms.
+These algorithm create, expand, and traverse the ontology in the sake of inferring new knowledge.
+A hierarchical ontology embeds the essence of unification and aggregation in its hierarchies.
+This essence of unification and aggregation is used in study [.romannumup]#1# and [.romannumup]#2# to represent a semi-automatic method for flexibly aggregating the heterogenous evaluation aspects.
+
+
+
+
+
+
+////
+[.marginfigurenote]
+The Canon of Healing a book by Avicenna (Iranian polymath). As the name suggest it tried to be a comprehensive reflection of findings in Medicine in that time. The book enjoyed to be a text book in Schools for over 7 centuries.
+image::[alt="Canon of Healing by Avicenna"]
+////
+
+
+////
+=== Ontology Construction
+
+[.newthought]
+Ontology construction usually happens through a manual process 
+
+////
+
+== Summary of the Results and Papers
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
+
+[.lettrine]
+Both of studies [.romannumup]#1# and [.romannumup]#2# concentrate on the challenge of heterogeneity in quality aspects during evaluation.
+Study [.romannumup]#1# addresses this in the summative evaluations while study [.romannumup]#2# addresses focuses on the formative evaluations.
+Study [.romannumup]#2# recruits results from study [.romannumup]#1# and expands upon it.
+
+
+=== Summary of Study [.romannumup]#1#
+[.newthought]
+In study [.romannumup]#1#, the cons and pros of model-based and elicitation-based evaluation approaches were discussed and compared.
+A special attention has been paid to the challenge of heterogeneity and unification, especially when multiple heterogeneous health information systems or similarly characterized systems are considered for a uniform or aggregated evaluation.
+Then, the unifying nature of ontologies were introduced and how they can address the need for unification in spite of heterogeneity.
+It was explained that how this unification can be applied for heterogeneous quality attributes that were elicited from users, extracted from an evaluation model or both.
+
+The {UVON} method was discussed in its initial form in this study, where the method creates an ontology, based on the quality attributes elicited from the subject system(s) or extracted from a relevant evaluation model.
+The study applies the {UVON} method to the {FI-STAR} project and its 7 use-cases for a summative evaluation.
+The result of the {UVON} application in the {FI-STAR} project is a set of 10 quality attributes that are required to be evaluated across all use-cases.
+The quality attributes and their sub-qualities are reflected in the questionnaire in <<chap_questionnaires>>.
+
+
+
+=== Summary of Study [.romannumup]#2#
+
+[.newthought]
+In study [.romanumup]#2#, some of the common grounds, shared with study [.romannumup]#1#, about the challenge of heterogeneity of quality aspects is reviewed. 
+The study focuses more on the design phase and how this heterogeneity challenges prioritizing the quality aspects that are to be considered in that phase.
+An extended version of the {UVON} method is introduced to address the challenges mentioned above.
+
+In this study, the {UVON} method was extended through enhancing the ontology structure by adding weighting and threshold values to the connection edges, and evaluation value to the deepest-possible nodes when it makes sense for a specific design.
+In this sense, each quality attribute —except the leaf nodes— is considered to be an aggregation of its child quality attributes and each child quality attribute has a share in creating the value in its parent. 
+The shares are specified by the weighting values; also the canceling impact on the parent quality is specified by the threshold values.
+The deepest-possible nodes get their values by evaluating how they are satisfied by a specific design or design option.
+The rest of the nodes, above the nodes with initial values, get their values by summing their child values or being canceled by children that have not met the threshold.
+
+This extended {UVON} method enables prioritizing between quality attributes, i.e. recognizing which one creates higher values in the upper hand nodes, and also ensures the inclusion of the critical quality aspects during the design phase.
+Hence, the method creates a mechanism for formative evaluation in the design phase, regarding selecting between options in a single design or comparing design alternatives with each other.
+
+== Conclusion and Future Works
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
+
+[.lettrine]
+The evaluation of the health information systems enhances us with the insight we need for shaping the approaches and strategies that address the raising demands in health care.
+But, health information systems inherit a heterogeneous nature from the heterogeneity that resides in the information technologies, where this makes evaluating them challenging.
+Evaluation of the health information systems needs to capture, organize, and unify the heterogeneity in those quality aspects that play a role in the evaluation.
+
+Ontologies and semantic networks are approaches for capturing and relating the knowledge about a set of systems, including a heterogeneous set of quality aspects, which also enables unifying them through the network structure of the ontology or semantic network.
+This unifying quality can promise a solution for the challenge of heterogeneity in the evaluation of heterogeneous systems, including health information systems.
+
+Methods, with the characteristic of being automatic or semi-automatic, can be developed that rely on the ontological structures and their possible extensions, and unify heterogeneous quality aspects in the sake of collective or aggregative evaluations.
+The {UVON} method and its extended form are examples of those methods.
+They create ontologies and enhance them with values to unify evaluation aspects or prioritize between them.
+
+These methods, due to the flexible structure of the ontologies and their embedded chain of possible deductions, can be extended to capture richer information or elicit new knowledge about the evaluation cases.
+More investigations about these possible benefits are needed to be conducted.
+
+=== Future Works
+[.newthought]
+Evaluation results from application of the {UVON} method in the {FI-STAR} project can be the raw material for another study.
+The {UVON} method can be extended, as it has been done in study [.romannumup]#2# for further evaluation requirements.
+Automation of the {UVON} method can be increased by using automated lexical relation suggestions.
+Extraction of the initial set of quality attributes can be investigated for automation.
+
+[.newthought]
+Diagnosis might have the strongest informational tone amongst other kinds of health care activities, i.e. promotion, prevention, treatment, rehabilitation, palliative care, and management.
+The outcome of a diagnosis is only information, without any change in the future or possible future of health condition.
+Even sometimes the diagnosis can happen without participation of the patient.
+This purity in informational dimension makes diagnosis a special case for the application of health information systems.
+Through diagnosis we try to decrease our uncertainty about biological and health condition of individuals or populations; that is what we originally intend to do by processing and communicating information, i.e. decreasing our uncertainty about things.
+The first-hand impact of using {ICT}s is supposed to be this processing and communication.
+
+From the other side, evaluation and diagnosis are reverse forms of each other.
+While in diagnosis we try to find out about the causes by back casting from symptoms, in evaluation we try to find out the symptoms —let's say quality aspects— that a known cause —let's say a technology intervention— has created or going to create in the future. 
+
+The high degree of homogeneity between diagnosis and the {ICT}s main functionality and the reverse symmetry of evaluation with diagnosis creates an interesting triple overlapping zone.
+Insights from each of these three disciplines may create new knowledge in the other one.
+
+
+
+= Papers
+[partintro]
+.Optional part introduction title
+--
+Optional part introduction goes here.
+--
+
+
+
+
+
+
+== Evaluating Health Information Systems Using Ontologies
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
+
+[.chapter_authors]
+Shahryar Eivazzadeh, Peter Anderberg, Tobias C. Larsson, Samuel Fricker, Johan Berglund
+
+
+
+
+[.chapter_abstract]
+=== Abstract
+Background::
+Several frameworks try to address the challenges of evaluation of health care information systems, by offering models, methods, and guidelines about what to evaluate, how to evaluate, and how to report the evaluation results.
+The evaluation aspects, i.e. what to evaluate, suggested by model-based evaluation frameworks are usually recommended for universal application and do not include case-specific aspects. 
+In contrast, for the evaluation aspects extracted by frameworks that rely on elicitation of requirements, while they include case-specific aspects but they are limited to evaluation aspects foreseen by case users in the early phases of system development.
+At the same time, the elicitation approaches extract different evaluation aspects from each case, make it challenging to compare or aggregate the evaluation of a set of heterogeneous health care information systems together.
+
+Objectives::
+It is needed to find a method for harvesting and unifying different aspects (or whats) of evaluation of health care information cases in a heterogeneous environment.
+The method needs to both aggregate the evaluation aspects extracted by elicitation of user's requirements and accommodate recommended evaluation aspects by a model based evaluation framework.
+
+Method::
+Based on available literature and methods in semantic networks and ontologies, a method (called {UVON}) was developed that harvests and aggregates the evaluation aspects of several health care information systems, from both elicitation and model-based sources, into a tree-style ontology structure.
+Then the ontology structure was used to extract aggregated evaluation aspects that are originated both from requirements elicitation and health technology evaluation models.
+
+
+Results::
+The method was applied in {FI-STAR}, a project of seven cloud-based e-health applications being developed and deployed across European Union countries. 
+That resulted in an ontology structure which reflects the internally declared required quality attributes in the {FI-STAR} project, which then was extended to accommodate the quality attributes recommended by {mast} evaluation framework.
+The evaluation aspects were extracted from the output ontology and were used for the evaluation of all {FI-STAR} cases, both as separate cases and as a whole.
+
+
+Conclusions::
+The suggested method can provide a way for organizing, unifying, and aggregating the evaluation aspects of heterogeneous health care information system implementations that are suggested by model-based and elicitation-based approaches.
+The method maintains to be systematic, context-sensitive, and less subjective across a heterogeneous set of health care information systems.
+
+[.chapter_keywords]
+=== Keywords
+Health Care Information Systems; Ontologies; Evaluation; Technology Assessment, Biomedical
+
+
+=== Note
+This paper is under review for publication in a journal and still cannot be publicly distributed.
+
+
+== Designing with Priorities and Thresholds for Health Care Heterogeneity
+:chap-n: {counter:chap-n-c}
+{counter2:fig-n:0} 
+
+[.chapter_authors]
+Shahryar Eivazzadeh, Peter Anderberg, Tobias C. Larsson, Johan Berglund
+
+
+[.chapter_abstract]
+=== Abstract
+Designing for complex health care environments needs to address heterogeneous, competing, or even contradicting requirements expressed in different wordings and levels of abstraction by various actors of the health care complex environment, i.e. health care consumers, health care professionals, regulatory bodies, production lines, and marketing departments.
+The method introduced in this paper, utilizes ontological structures to unify heterogeneous requirements in different levels of abstraction. 
+A weighting mechanism, which utilizes the ontology structure, allows to prioritize the requirements, while a threshold mechanism enforces minimum required qualities in a clear and integrated way. 
+The application of the method is not limited to designing for health care, and it might be applied in design processes for similar environments or can be used to communicate standard requirements and regulations in clear ontology structures.
+
+
+[.chapter_keywords]
+=== Keywords
+Biomedical design, Ontologies, Requirements, Prioritizing, Design validation
+
+
+[.graybox]
+=== ICED 2015: Designing with Priorities and Thresholds for Health Care Heterogeneity
+
+.This paper is published in ICED 2015 proceeding.
+image::fig_iced15_firstpage.png[alt="ICED 2015: Designing with Priorities and Thresholds for Health Care Heterogeneity"]
+
+
+
+
+=== Introduction
+
+
+****
+complexity of health care systems
+****
+[.newthought]
+Health care systems are complex systems [cite:shiell_complex_2008], in different scales with multiple different actors [cite:world_health_organization_everybodys_2007;papanicolas_health_2013], and even sometimes each actor with multiple roles [cite:frenk_global_2010]. Products or services, to be launched in a health care environment, need to address heterogeneous requirements of those multiple actors. The variety and heterogeneity of requirements make it difficult for designers to come with a clean set of clearly defined requirements. Different stakeholders express their requirements in different wordings, different scopes, and different levels of abstraction. Some requirements might contradict with each other, while others might compete in priority. 
+
+****
+affirmative and negative facets of the requirements
+****
+
+Requirements for a product or service can have two affirmative and negative facets. In one facet, the fulfillment of the requirement would increase the total value that the product or service delivers. In another facet, inability to fulfill a requirement or insufficiency in exposing a quality, invalidates the design and fails the product or service totally even if it excels in other aspects. For example, an electrical device in health care that scores high in price performance would be considered a failure if it could not comply with minimum required safety standards. At the same time, while electrical safety higher than required might contribute to the value the product delivers, but even lower —but enough— levels of safety does not invalidate the overall qualities. 
+
+Health care products and services are governed by extensive regulations and guidelines that are strictly needed to be observed [cite:johnson_fda_2012]. These requirements are expressed and documented in a variety of documents, making it a challenge to extract and apply them via design in a consistent way.
+
+
+
+
+=== Research Context
+
+****
+the FI-STAR project
+****
+[.newthought]
+The method represented in this paper was the output of cycles, similar to those specified in action research methodology [cite:davison_principles_2004]. The context of the research was the products’ requirements specified in Future Internet Social and Technological Alignment Research (FI-STAR) project. ((FI-STAR)) is an {EC} founded project in e-health [cite:fi-star_about_2012]. FI-STAR, as a part of phase two of Future Internet Public-Private Partnership Programme (FI-PPP) project, seeks to utilize Future Internet (FI) technologies, provided by ((FI-PPP)) phase one, in seven early trials [cite:fi-star_about_2012;fi-ppp_about_2012]. These seven trials, each are designed by different designers upon the requirements gather from different end-users. Beyond the end users, all the trials are supposed to apply or utilize technical requirements specified by the ((FI)) recommendations. The trials are connected to each other in that sense that they are needed to utilize some of the functionalities provide by ((FI)) infrastructure, called General Enablers (GEs). Also a goal of the project was to detect and suggest some of the common needed functionalities in e-health applications, which eventually are supposed to be implemented as GEs or Specific Enablers (SEs). 
+
+The aggregated requirement documents of those seven trials exposed the challenges in such situations. The requirement from each of the trials were expressed in different wording, scale, perspective, and abstraction; while the nature of many of those trials were similar to each other or some of the functionalities were expected to be the same. It was anticipated that a unifying structure can be beneficial for both design and evaluation phases. 
+
+****
+application of ontologies in case-specific scales
+****
+
+Ontologies have been used for a long time in health care to standardize, hence facilitate, the communication about health situation and health care interventions. While those ontologies are defined in global level application, but they can inspire using ontologies in small case-specific scales. Therefore, a pool of requirements were created from harvesting the requirement documents which was then structured as an ontology. There were several cases of ambiguity in constructing the ontology or interpreting the resulted ontology which led to priority and threshold mechanisms described late in this paper. In practice, the ontology is used only for the evaluation process in ((FI-STAR)) project, but its successful construction, ease of application in the evaluation phase, and its observed characteristics all together signal the feasibility of the method, with modifications specified in this paper, for design phase.
+
+
+
+
+=== The Resulted Method
+
+[.newthought]
+The method introduced in this paper, unifies the heterogeneous, overlapping, non-overlapping, competing, or even contradicting requirements. It also prioritizes them by their predicted contributions to the total value of the final product or service. The method can disqualify those designs that do not satisfy the designated thresholds specific to any of the requirements. 
+
+The method is elaborated with the requirements of health care systems design in mind, but it is not limited to that and can be used in other similar design contexts. A European project in health care information systems, called FI-STAR, has been the practical context of developing this method. The method tries to find a unification mechanism for the requirements communicated by the actors in a health care environment by using ontology structures.
+
+****
+hierarchical ontologies and their features
+****
+
+Ontology construction is a core to the method, both for the purpose of unification and for implementing prioritizing and threshold mechanisms. Ontologies are networked representation of shared knowledge about a domain, where the concepts of that domain are represented as nodes of the network, connected to each other through a limited defined set of relations [cite:noy_ontology_2001]. Usually the concepts are represented in noun form and the relations in verb form. In this sense, the heterogeneous set of requirements in a complex health care setting can be captured within an ontology, which makes is computable for ontology related algorithms. If the relations in a requirement ontology be restricted to hierarchical relations, such as parent to child, superclass to subclass, generic to specific, or superset to subset then still the ontology can capture non-functional requirements as well as those requirements that can be expressed in form of X is of type Y form. Hierarchical relations, excluding the equity relation, impose specific forms to networks. They work only in one way, in this sense that one concept cannot be a parent, superclass, generic form, superset to itself. An extension of the above observation is that the hierarchical relations cannot chain as loop, hence any travel between nodes would be in one direction never reaching back the same node. This form of structure, i.e. direct with no loop, is called acyclic directed graph. The tree form in graphs, is a subset of acyclic direct form. If there is a single node with no parent node then it is called rooted tree. As its name implies, all nodes in a rooted tree, except the one that is called root, have only one parent. If an acyclic graph is not in tree form, then we can convert it to a tree form by making multiple instances of those nodes that have more than one parents. In a tree, all nodes get unified, level by level, through their parent node, where ultimately they get all unified in the root node. Traditionally, the root nodes in tree style ontologies are labeled thing, as every concept is ultimately a thing. 
+
+Tree style ontologies of requirements expose interesting computational characteristics. Being able to traverse between any two nodes, being able to assign each node to a level of the tree, and being able to assign values to each node and connection are some of those characteristics that play role in our method.
+
+
+
+
+==== Ontology Construction
+
+****
+creating a tree-style ontology from quality attributes
+****
+[.newthought]
+The method is essentially a manual ontology top-down construction [cite:fernandez-lopez_overview_2002], customized slightly to be able to accommodate assignment of weights and thresholds. The method, as normal in other ontology construction methods, begins by working on a pool of concepts, here the requirements, which are gathered from the actors [cite:alterovitz_ontology_2010]. This can be done by harvesting requirement documents or any document that is an output of requirement elicitation. The requirements need to be expressed in or converted to attributive form of qualities. Even many of functional requirements can be expressed in verb attributive forms such as "can process more than X number of transactions per second". It is expected to encounter different wordings, different scales, different abstraction levels, overlaps, and contradictions in the requirements and their expressions. 
+
+Creating a tree style ontology is the next step and at the same time at the core of the method. All the requirements are supposed to be feed into this ontology and to expand it, to merge into another node, or to modify its structure. A repeating task is the comparison of a requirement with another requirement that is already a part of the tree. The comparison tests if the new requirement is a more generic form, a superclass, a superset, or super-type of the other requirement. In the sake of simplicity, the above cases are all addressed by using superclass term and vice versa the case of being more specific, subclass, subsumed, subset, or subtype is only addressed by using the term subclass. 
+
+The algorithm begins by creating a root node labeled as thing. Then all the requirements in the pool would go through a process where all begin a travel beginning at the root and ending in one or more lower positions. In this sense, we call that requirement the traveling requirement as that travels from the root to some certain place or places. Each requirement begins the travel by comparing itself to the children of the root node, if there is a node that is a subclass of the requirement then it would repeat this children-comparison process with that node. Traveling deep the tree ends when it reaches a node with no child or if none of the children of a node are superclass of that requirement. If there is no child then the traveling requirement assigns itself as a new child to that node. If there is an exactly the same node, then the traveling requirement merges with that. If there exist any children that are subclass of the traveling requirement then they all change their parents to be the traveling requirement and the traveling requirement assigns itself as a child to the last node it has reached. <<fig_prior_sample_ontology>> is a demonstration of the final output of the method. 
+
+If a traveling requirement finds more than one superclass children node in a step, then it would replicate itself into instances of the number of those nodes and goes through each branch in parallel. In this sense, the resulting ontology might have several instances of the same concept, i.e. requirement, in different branches. This redundancy contradicts with what traditionally ontologies are, but it simplifies our method in the next step by keeping the ontology in tree format. 
+
+In the last step, the tree might need to be normalized in that sense the requirements in each level maintain the same level of generality. This can happen by manually injecting generic qualities that are superclass to nodes that are too specific for that level of ontology. This makes the ontology more readable, at the same time makes it easier to decide which level of the ontology should be considered as the unified, readable, and communicable specification of the requirements (level 3 in blue color in <<fig_prior_sample_ontology>>).
+
+
+
+
+==== Discussing Ontology Construction Output
+
+[.newthought]
+All heterogeneous requirements are unified ultimately in the structure of the ontology tree (see <<fig_prior_sample_ontology>> for a sample). The tree is structured in levels, beginning with level 0 which only includes the root node (thing). The set of requirements in each level represents and unifies all the captured requirements in some degree of generality. In this sense, the root, i.e. the thing node, is the most general but pointless evident requirement. Going down level by level, the requirements in each level grow in number and specificness. When the number of requirements reaches the maximum of our capacity to consider in design then that level would be the target level (shown in blue in <<fig_prior_sample_ontology>>). 
+
+For branches of the tree that end before reaching the target level, we can continue their presence with repeating the last leaf node in subsequent levels. This enables us to avoid missing the requirements when deciding which level should represent all the unified requirements. 
+
+There can be ambiguity when we try to answer which of two related requirements is a subclass or superclass form for the other. For example, the topic of safety can be considered a superclass of material safety (e.g. being non-toxic) or than operational safety. But, some thing that is safe should be both safe in material and safe in operation. In this case, the so called generic form, i.e. being safe, is the set intersection, a common denominator, or a Boolean AND product of the two others, unlike the first case which was a union, a common factor, or a Boolean OR product of the two others. Here, the right wording can resolve the ambiguity, although it leads to a less intuitive hierarchy where safe in material is a more generic concept to being safe by some standard definition. 
+As an other example, the experience of an efficient solution can be fulfilled both by fast solutions and also simple ones. Here being efficient is more a union of both of being fast and being simple (<<fig_prior_sample_ontology>>). At the same time, this can be reversed, where being efficient is a specific case of being fast and simple at the same time. 
+
+The origin of these ambiguities is that each quality, i.e. a requirement in our ontology, can be evaluated from the two affirmative and negative perspectives. In the affirmative perspective, the existence of a quality contributes to adding value agenda of a product or service. In the negative perspective, the nonexistence of a quality fails the product or service, totally or in some aspects. The concept of generality and the right wording choices work differently in these two perspectives. These two perspectives generate two different cases of generality and require different wordings usually. Switching between these two can create two different versions of an ontology of requirements.
+
+[#fig_prior_sample_ontology.fullfigure,reftext='{fig} {chap-n}.{counter:fig-n}']
+.Ontology structure sample for designing with priorities and thresholds.
+image::fig_prior_sample_ontology.png[alt="The method ontology structure"]
+ 
+
+
+==== Implementing Priorities and Thresholds
+
+[.newthought]
+Beyond the unification gained through the ontology, we can assign parameters to nodes and connections in order to bypass ambiguities and also to implement prioritizing and threshold mechanisms. 
+In our method, the value or arrays of values in the nodes, from zero to one, indicate how that quality is fulfilled by a design or collection of candidate designs. This value is originally extracted from design specification or design evaluation, but it needs to go through some calculations based on ontology connection parameters. Therefore we first focus on the explanation of the connection parameters. 
+
+We have introduced two parameters to be associated with each connection. One of these parameters is associated with a subclass to superclass relation while the other is associated with superclass to subclass relation. In this sense, each connection can work in a bilateral way and even a disputing order in hierarchy can be ignored if the right parameters are assigned. We believe that assignment of these parameters is more intuitive than choosing the very precise wording and the very precise hierarchy ordering. In the other words, those two parameters would make the ontology tolerant to some degree to the wrong or challenging hierarchical orders, while it recognizes the in parallel existence of both the affirmative and adding value or negative and cause failure facets for each quality (requirement) or its absence. The parameters for a connection are formed as an array of two numbers, each between zero to one. 
+
+The first number of the array indicates what is the average or expected contribution of a child quality to its parent quality. This value can be result of a market research or similar studies. For example in <<fig_prior_sample_ontology>>, for the children of efficient quality (stem:[r_a]) the first value in each connection (stem:[r_{aa}] and stem:[r_{ab}]) indicates how much being fast or simple contributes to be considered efficient. 
+
+[latexmath]
+++++
+\[
+W(r_{a})=0.4 \times W(r_{aa}) + 0.6 \times W(r_{ab})
+\]
+++++
+
+
+Values of weightings in connections (stem:[w]) in the lower levels of the tree, starting from the root, are subjects of general market studies, while the deep nodes in higher nodes get their values either from the product end users or even designers themselves. 
+
+The second number indicates what is the threshold value for the child quality that below that value the parent quality cannot be established and its value becomes zero. For example the connection between stem:[r_{bb}] and stem:[r_b] (i.e. between safe in material and safe) is associated with stem:[(0.5,0.9)], which means any value less than stem:[0.9] would invalidate the state of being safe, regardless of other values it might received from the first parameter or from its other child nodes. 
+
+
+****
+calculating the values of parent-child connections
+****
+
+In a more precise wording, for a connection weighting :
+[latexmath]
+++++
+\[
+parent :=\sum\limits_{i=1}^n w_i \times child_i
+\]
+++++
+
+[latexmath]
+++++
+\[
+\exists child_i: ( child_i < {\theta}_i ) \Rightarrow parent := 0
+\]
+++++
+
+
+==== Prioritized Requirement Selection
+
+[.newthought]
+Every node in the output technology can be assigned a value which indicates what is the share of that quality, i.e. fulfillment of that requirement, in the overall value that the product or service deliver. This value is the chain production of the values of all nodes and w value in each connection, starting from the root node and ending at the last connection to the node itself. If we maintain to keep distribute connection values as percentages of number stem:[1.0], then the value in each node would be less than stem:[1.0], while the sum of all nodes in each layer would be exactly stem:[1.0].
+
+
+
+
+==== Design Disqualification Based on Thresholds
+
+[.newthought]
+Any candidate design can be compared to a leaf node of the ontology to see how it fulfills that requirement. This comparison determines the value or value array for that leaf node. Other nodes in the tree get their values based on these initial values in leaf nodes and the parameters of connections between leaf nodes and them. 
+
+In <<fig_prior_sample_ontology>>, the candidate three designs are shown by stem:[\{d1,d2,d3\}] at the bottom of the ontology. Technically in ontology literature, they can be considered as instances connecting to classes [cite:hitzler_owl_2012], hence they become the leaf nodes themselves, but in our method any reference to a leaf node only means a quality class that is leaf in the ontology and not the designs themselves. The comparison of various designs with a requirement creates an ordered set of fulfillment values, ranging from stem:[0] to stem:[1.0]. The values would be multiplied by the weighting value in their parent connection and summed by their parent, but if the values are less than the specified stem:[\theta] threshold they would turn off the parents to stem:[0]. 
+
+****
+how the threshold cancelation works
+****
+
+For example in <<fig_prior_sample_ontology>>, stem:[V_{aba}], with values stem:[0.3, 0.1, 0.4], means that design number one (stem:[d_1]) is supposed to fulfill stem:[0.3] out of stem:[1.0] in being fast (i.e. requirement stem:[r_{aba}]), design number two can fulfill stem:[0.1] out of stem:[1.0], and design number three can fulfill stem:[0.3] out of stem:[1.0]. The values in stem:[r_{aba}] would be copied to its parent (stem:[r_{ab}]) because stem:[(1,0)] indicates no threshold (stem:[0_{\theta} \lt ]) and to be fully (stem:[1.0]) —not partially— responsible for its parent value. But in the next step, i.e. from stem:[r_{ab}] to stem:[r_a], because the value of the second design is less than threshold (stem:[0.1 \lt 0.2]), i.e. it is not designed to be fast enough, then the value of stem:[r_a], i.e. efficiency would be zero for design two (stem:[d_2]), regardless of other values it gathers from the other child node (i.e. stem:[r_{ab}]). Here the connection between stem:[r_{ab}] and stem:[r_a] defused stem:[r_a] and any upper node in the chain, as the design did not fulfill an essential requirement.
+
+
+
+
+==== Communicating Regulations and Standard Guidelines
+
+
+****
+structured communication of regulations and standards
+****
+
+[.newthought]
+Health care products and services are governed by intensive regulations and standards that are supposed to ensure safety and reliability of any product or service which can have direct sever impacts on the health of health care consumers [cite:johnson_fda_2012]. Any design process for health care needs to find its product related regulations and guidelines and comply with them. Communicating those regulations and guidelines can be eased and clarified through suggesting partial ontology trees, the same as in our method, that cover the required qualities. 
+
+These partial ontology trees can be integrated to the product requirement ontology in its early stages of construction. It can also be imagined that many of compatible regulations can be aggregated into a unique grand ontology. This grand ontology can be stored and maintained in a centralized way by a regulatory body. This grand ontology can be partially defused to become suitable for design of specific cases.
+
+
+
+
+==== Some Limitations and Challenges
+
+****
+partial subjectivity
+****
+[.newthought]
+The ontology construction method relies on micro decisions in each stage of the algorithm, trying to find out which node is a superclass to the other. These micro decisions can be subjective [cite:abels_identification_2005], creating different versions of the ontology when applied to the same context but in different times. Those micro decisions can also create different ontologies, when being done by a loosely couple group who do content curation in the sake of extracting the requirements and constructing the ontology. Here the point is that like a design, for the same context, there can be multiple versions of good ontologies and multiple versions of bad ontologies. The method proposed in this paper limits decisions to those micro decision and automates the rest, this would probably lead to similarity in implementations but does not guarantee that. 
+
+****
+no balancing or offsetting mechanism for threshold cancelation
+****
+
+The major limitation in the threshold mechanism is probably the simplistic way of recognizing when it should trigger a rejection. In real life, a complex situation about product requirements might determine if a design should be rejected or not. In our method, triggering a rejection only depends on deeper child nodes to where the threshold value is defined; in real life, it can depend on other nodes in other branches in a more sophisticated way. For example, a design for a health technology which is rejected because it could not satisfy minimum required safety in operation value can be still a valid option, saving lives of many, if it shows high scores in safety by informing and inexpensive requirements; while these two requirements are in two different branches not necessarily below safety in operation. 
+
+The limitation in sophistication of triggering rejection by threshold mechanism can sometimes be amended by restructuring and modifying the ontology. In the above example, the safety by operation can lower its threshold requirement, instead increase its share, in competition with safety by informing, in its parent safety node; at the same time the safety could demand higher threshold. This way would let the safety by informing to compensate proportionally low values in safety by operation to some extent and transfer the trigger more on to the safety node. A higher artificial node called safe or inexpensive can be asserted above the safe and inexpensive to collect these two with right thresholds and factors of contribution.
+
+=== Conclusion
+
+
+[.newthought]
+Designing product or services for health care complex environments can encounter challenges in the stage when designers need to clarify and solidify the requirements. The challenge with the requirements in such complex environments can be that they originate from heterogeneous sources, are specified by different wordings, are expressed in various levels of abstraction, and expose multiple facets. The method introduced in this paper tries to address these challenges by utilizing the unification nature of tree-style ontologies; therefore it constructs a tree ontology out of the requirements and provides dimension of computability to the ontology and the requirements within that. The method of constructing the ontology is a simple top-down, with possibility to be extended in automation or matching aspects. 
+
+The method enhances the constructed ontology by assigning weighting and threshold values to the connections and quality fulfillment degree to the nodes. The enhanced ontology facilitates prioritizing the requirements in a design and detecting, hence rejecting, those designs that do not fulfill a minimum of a critical requirement. The method can also be used to communicate a set of regulations and guidelines in an integrated and clear way, by communicating a partial pre-built ontology. Any constructed ontology from a design case can be an input for other related knowledge elicitation and inference algorithms.
+
+
+=== Acknowledgment
+
+
+[.newthought]
+
+The authors acknowledge the contribution of {FI-STAR} project partners, providing the context for this paper. {FI-STAR} received funding from the {EC} under the Seventh Framework Programme (FP7).
+
+indexterm:[FP7]
+
+
+= Appendices
+
+
+
+[appendix]
+== UVON Algorithm
+
+// ifdef::basebackend-docbook[]
+
+// endif::basebackend-docbook[]
+
+The {UVON} method applies a ((deep-first tree traversal algorithm)) [cite:tarjan_depth-first_1972].
+The _TravDeep_ is implemented as a recursive (self-calling) function, which stops when it reaches a leaf node.
+When the function reaches that deep it tries (through the _Try_ function) to see if the selected quality attribute can be a subclass of the leaf node or not.
+If not then it tracks back and tries other nodes, sweeping from deep.
+
+[source.algorithm]
+----
+
+%-----------------------------------
+\begin{algorithm}[htbp]
+\caption{Creating Phase \textbeta~Ontology ($O_{\beta}$)\label{algoritm:beta}}
+% \captionof{Creating Phase \textbeta~Ontology ($O_{\beta}$)}
+
+\begin{algorithmic}[1]
+% \captionof{mytype}{blub} something in my type
+\Require $Q_{\alpha}$
+\Ensure $O_{\beta}$
+\State $O_{\beta}=(Q_{\beta}=\bigcup q_i:(def_i,w_i),I=Q_{\beta} \stackrel{parent} \longrightarrow Q_{\beta})$ 
+\Procedure{Main}{}
+  \State $O_{\beta} \gets \varnothing , Q_{\beta} \gets \varnothing , S_{\beta} \gets \varnothing $
+  \State $q_{\beta:root} \gets thing$
+  \State $Q_{\beta} \gets \{(q_{\beta:root,1)}\}$
+  \ForAll {$q_{\alpha:i}:q_{\alpha:i} \in Q_{\alpha}$}
+    \State $\Call{TravDeep}{q_{\beta:root},q_{\alpha:i}}$
+  \EndFor
+  \State \Call{Restructure}{$O_{\beta}$}
+\EndProcedure
+\algstore{beta}
+\end{algorithmic}
+\end{algorithm}
+%-----------------------------------
+
+%-----------------------------------
+\begin{algorithm}[htbp]
+% \ContinuedFloat 
+\addtocounter{algorithm}{-1}
+\caption{(cont.)}
+
+\begin{algorithmic}
+\algrestore{beta}
+
+\Function{TravDeep}{$q_{\beta:i},q_{\alpha:i}$}%\Comment{traverses the ontology from root}
+
+  % \State  \Comment{any child node}
+  \If {$ \exists  q_{\beta:j}: (q_{\beta:j},q_{\beta:i}) \in S  $ }
+
+    \ForAll {$ \{ (q_{\beta:j},q_{\beta:i}): (q_{\beta:j},q_{\beta:i}) \in S  \}$}
+      \State   $res \gets res \lor \Call{TravDeep}{q_{\beta:j},q_{\alpha:i}}$%\Comment{recursive}
+    \EndFor
+
+    % \State \Comment{if no child was assigned}
+    \If {$res = false$}
+      \State  $res \gets \Call{Try}{q_{\beta:i},q_{\alpha:i}}$
+    \EndIf
+
+    \State \textbf{return} $res$%\Comment{recursive}
+
+
+  % \State  \Comment{leaf (no child) node}  
+  \ElsIf {$ \nexists  q_{\beta:j}: (q_{\beta:j},q_{\beta:i}) \in V \stackrel{child} \longrightarrow V  $ }
+
+    \State  \textbf{return} $\Call{Try}{q_{\beta:i},q_{\alpha:i}}$
+
+  \EndIf
+  % \State  \Comment{when all children processed}  
+  % \If {$lastTry =  \texttt{"succeed"} $}
+  %     \State \textbf{return} 
+  % \Else
+  %     \State   $\Call{Travers}{v_j,q_i$}%\Comment{recursive}
+  % \EndIf
+
+
+\EndFunction
+\algstore{beta}
+\end{algorithmic}
+\end{algorithm}
+%-----------------------------------
+----
+
+The _Try_ function looks if the quality attribute is a subclass or equivalent of the specified node or not.
+Upon a successful subclass case then it injects as a new sub-node with initial weight 1.
+Upon a match case it just increase the weight of that node by 1.
+
+
+[source.algorithm]
+----
+
+%-----------------------------------
+\begin{algorithm}[htbp]
+  % \ContinuedFloat
+  \addtocounter{algorithm}{-1}
+  \caption{(cont.)}
+  \begin{algorithmic}[1]
+  \algrestore{beta}
+
+  \Function{Try}{$q_{\beta},q_{\alpha}$}
+      \If {$q_{\beta} \in sup( q_{\alpha}$ )}
+        % \State   \Comment{add $q_i$ to $q_{\beta:i}$}
+        \State $q_{\beta:new} \gets (def(q_{\alpha}),1)$
+        \State $Q_{\beta} \gets Q_{\beta} \cup q_{\beta:new}$ %new node with initial value 1
+        \State $S \gets S \cup (q_{\beta},q_{\beta:new})$
+        % \State $q_{\beta:i} \gets (def_{\beta:i},w_{\beta:i}+1)$ %increase parent node weight
+
+        \State    \textbf{return}  $true$
+      \ElsIf {$q_{\beta}=q_{\alpha}$}
+        % \State \Comment{if it is the same}
+        \State $q_{\beta} \gets (def_{\beta},w_{\beta}+1)$ %just increase parent node weight      
+        \State    \textbf{return}  $true$
+      \Else
+        \State    \textbf{return}  $false$
+      \EndIf
+  \EndFunction
+  \algstore{beta}
+  \end{algorithmic}
+  \end{algorithm}
+%-----------------------------------
+----
+
+After each injection, there is a need to check sibling nodes and their sub-nodes to see if they can be categorized as subclasses of the newly added node or not.
+This happens through the _Restructure_ function, where it check and apply changes.
+The _Restructure_ function calls the _TravTop_ function which a traversal function which ignores traversing deeper when a superclass node matches the criteria.
+
+[source.algorithm]
+----
+
+%-----------------------------------
+\begin{algorithm}[htbp]
+  % \ContinuedFloat
+  \addtocounter{algorithm}{-1}  
+  \caption{(cont.)}
+  \begin{algorithmic}[1]
+  \algrestore{beta}
+  \Function{Restructure}{$q_{\beta:pat},q_{\beta:new}$}
+    \State $Q_{sub} \gets \{ q_i:(q_{\beta:pat},q_i) \in S, q_i \neq q_{\beta:new} \}$
+    \ForAll {$q_i:q_i \in Q_{sub} $} %For all siblings
+      \State $res \gets \Call{Try}{q_{\beta:new},q_i}$ %Try if it is subclass of the new q
+      \If{$res = true$}
+        \State $S \gets S   \setminus {(q_{\beta:pat},q_i)}$ %if yes then remove their older parent (the new one intervene)
+      \EndIf
+    \EndFor
+    \State $Q_{sub} \gets \{ q_i:(q_{\beta:pat},q_i) \in S, q_i \neq q_{\beta:new} \}$ %renew the sibling list
+    \ForAll {$q_i:q_i \in Q_{sub} $} %For all siblings
+      \State \Call{TravTop}{$q_{new},q_i$}
+    \EndFor
+  \EndFunction
+  \algstore{beta}
+  \end{algorithmic}
+\end{algorithm}
+%-----------------------------------
+\begin{algorithm}[htbp]
+  % \ContinuedFloat
+  \addtocounter{algorithm}{-1}  
+  \caption{(cont.)}
+  \begin{algorithmic}[1]
+  \algrestore{beta}
+  \Function{TravTop}{$q_{new},q_{chd}$}
+    \ForAll {$ \{ (q_j: (q_{chd},q_j) \in S  \}$}
+      \If{$\Call{Try}{q_{chd},q_j}=false$}
+        \State \Call{TravTop}{$q_{new},q_{chd}$}
+      \EndIf
+    \EndFor
+  \EndFunction
+
+  \end{algorithmic}
+\end{algorithm}
+%-----------------------------------
+
+----
+
+
+
+// \subsection{Creating Phase \textgamma~Ontology}
+In presence of an external framework, the internal framework should be expanded such that:
+
+* it aligns with the external ontology 
+* it covers all of the external framework aspects to a specific level of depth
+
+
+//  % \expand
+[source.algorithm]
+----
+  
+%-----------------------------------
+% \begin{algorithm}[htbp]
+% \caption{Creating Phase \textgamma~Ontology ($O_{\beta}$)}
+% % \captionof{Creating Phase \textbeta~Ontology ($O_{\beta}$)}
+% \begin{algorithmic}[1]
+% \Require $O_{\beta},O_{external}$
+% \Ensure $O_{\gamma}$
+% \State $O_{\gamma}=(Q_{\gamma}=\bigcup q_i:(def_i,w_i),S=Q_{\gamma} \stackrel{parent} \longrightarrow Q_{\gamma})$ 
+% \Procedure{Main}{}
+% 	\State \textbf{\expand}
+% \EndProcedure
+% %\algstore{gamma}
+% \end{algorithmic}
+% \end{algorithm}
+%-----------------------------------
+
+----
+
+
+[appendix.appendix]
+[[chap_questionnaires]]
+== Questionnaires
+
+=== Patient version
+
+
+. How satisfied are you with the application’s health care output in its entirety? 
+. How well the application fulfills your expectations in health care delivery? 
+. Imagine a perfect application in all aspects of health care delivery. How far away from that is the application you are using today? 
+. Adhereability 
+
+The application increased my motivation for the treatments
+
+. Affordability 
+
+The health care service delivered through the application is more affordable or decrease expenditures, comparing with other alternatives. 
+
+. Efficiency 
+
+If you have experienced the same treatment before, would you say that the application has increased efficiency by reducing: 
+
+	..	Complexity or number of tasks
+	..	Number of reworks
+	..	Time consumed
+
+. Effectiveness 
+
+The application has increased effectiveness, especially by improving at least one of these items: 
+
+	..	Less mistakes
+	..	Readiness or promptness for different situations
+	..	More personalized treatment
+
+. Empowerment 
+
+The application empowers me by increasing my knowledge about the situation or general knowledge about the disease. 
+
+. Safety 
+
+	..	I felt safe when using the application.
+	..	The application provides correct information without any mislead or confusion.
+	..	I felt that the application helped me to minimize possible harms during the usage.
+
+. Trustability 
+
+I felt that I can trust the application for my privacy and my information. 
+
+
+=== Questionnaire for Professionals
+
+
+
+. How satisfied are you with the application’s health care output in its entirety? 
+
+. How well the application fulfills your expectations in health care delivery? 
+
+. Imagine a perfect application in all aspects of health care delivery. How far away from that is the application you are using today? 
+
+. Accessibility 
+The application is easily accessible for different groups of users 
+
+. Adhereability 
+The application helps patients to more adherence by some sort of motivators (i.e. being a member of a community) 
+
+. Affordability 
+The health care service delivered through the application is more affordable or decrease expenditures, comparing with other alternatives. 
+
+. Availability 
+The service which is provided by the application, is available on demand 
+
+. Efficiency 
+The application has increased efficiency by reducing 
+	..	Complexity or number of tasks
+	..	Number of reworks
+	..	Time consumed
+
+. Effectiveness: 
+The application has increased effectiveness, especially by improving at least one of these items: 
+	..	Less mistakes
+	..	Readiness or promptness for different situations
+	..	More knowledge and evidences
+	..	More personalized treatment
+
+. Empowerment 
+	..	The application empowers the patient by increasing their knowledge about their situation or general knowledge about the disease.
+	..	The application empowers the medical personnel by increasing their knowledge about the patient situation or general knowledge about the disease.
+
+. Safety 
+	..	It is safe for the patients to use the application without any possibility of disability, morbidity, or mortality harm.
+	..	It is safe for the medical personnel to use the application without any possibility of disability, morbidity, or mortality harm.
+	..	The application provides correct information without any mislead or confusion.
+	..	The application provides enough information on how to minimize possible harms during the usage
+	..	If the application fails, and if the failure causes any harm, then the harm would be minor as it would be non-severe, rarely happening, or happening for a very short duration.
+	..	The application improves health care safety by detecting emergency situations, unsafe behaviors or glitches in the process.
+
+. Trustability 
+The application attains trust of patients (for example by ensuring privacy of their information or being non-invasive in its interaction with them) 
+
+
+[.theendnoteschapter]
+== End Notes
+
+
+[bibliography.library.chicago]
+== References
+
+
+[glossary]
+== Acronyms
+
+
+
+
+[index]
+== Index
+
