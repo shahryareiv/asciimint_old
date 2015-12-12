@@ -1,0 +1,76 @@
+:textalpha: pass:q[[.greekletter]#&#945;#]
+:textbeta: pass:q[[.greekletter]#&#946;#]
+:textgamma: pass:q[[.greekletter]#&#947;#]
+
+
+:a-hit: health information technology
+:a-hit-s: health information technologies
+:a-hcis: health care information system
+:a-hcis-cap: Health care information system
+:a-hcis-s: health care information systems
+:a-hie: health information ecosystem
+:a-hie-cap: Health information ecosystem
+:a-hie-s: health information ecosystems
+:a-hta: health technology assessment
+:HTA: health technology assessment
+:a-hcs: health care system
+:a-hcs-s: health care systems
+
+
+:it: pass:q[[.acro]#((IT))#]
+:ict: pass:q[[.acro]#((ICT))#]
+
+:mast: pass:q[[.acro]#((MAST))#]
+
+:who: pass:q[[.acro]#((WHO))#]
+:who-ex: World Health Organization
+
+:eunethta: pass:q[[.acro]#((EUnetHTA))#]
+:eunethta-ex: European network for Health Technology Assessment
+:inahta: pass:q[[.acro]#((INAHTA))#]
+:inahta-ex: the International Network of Agencies for Health Technology Assessment
+:oecd: pass:q[[.acro]#((OECD))#]
+:oecd-ex: the Organisation for Economic Co-operation and Development
+:fi-star: pass:q[[.acro]#((FI-STAR))#]
+:fistar-ex: Future Internet Social and Technological Alignment Research
+:FI-PPP: pass:q[[.acro]#((FI-PPP))#]
+:FIWARE: pass:q[[.acro]#((FIWARE))#]
+:FP7: pass:q[[.acro]#((FP7))#]
+:fippp: pass:q[[.acro]#((FI-PPP))#]
+:fippp-ex: Future Internet Public-Private Partnership Programme
+:fi: pass:q[[.acro]#((FI))#]
+:fi-ex: Future Internet
+:FI-GE: pass:q[[.acro]#((FI-GE))#]
+:fi_ge-ex: General Enabler
+:FI-SE: pass:q[[.acro]#((FI-SE))#]
+:fi_se-ex: Specific Enabler
+:eu: pass:q[[.acro]#((EU))#]
+:QALY: pass:q[[.acro]#((QALY))#]
+:SNOMED-CT: pass:q[[.acro]#((SNOMED-CT))#]
+:eu-ex: European Union
+:ec: pass:q[[.acro]#((EC))#]
+:ec-ex: European Commission
+:owl: pass:q[[.acro]#((OWL))#]
+:owl-ex: Web Ontology Language 
+:uml: pass:q[[.acro]#((UML))#]
+:uml-ex: Unified Modeling Language
+:rct: randomized controlled trial
+:rct-s: randomized controlled trials
+:tam-1: Technology Acceptance Model (TAM)
+:TAM: pass:q[[.acro]#((TAM))#]
+:tam2-1: Technology Acceptance Model 2 (TAM2)
+:TAM2: pass:q[[.acro]#((TAM2))#]
+:utaut-1: Unified Theory of Acceptance and Use of Technology (UTAUT)
+:UTAUT: pass:q[[.acro]#((UTAUT))#]
+:fitt-1: Fit between Individuals, Task and Technology (FITT)
+:FITT: pass:q[[.acro]#((FITT))#]
+:TTF: pass:q[[.acro]#((TTF))#]
+:TTF-ex: Task-Technology Fit
+:OBO: pass:q[[.acro]#((OBO))#]
+:OBO-ex: Open Biomedical Ontologies
+
+
+
+:uvon: pass:q[[.acro]#((UVON))#]
+:suid: pass:q[[.acro]#((SUID))#]
+
